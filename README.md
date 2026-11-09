@@ -16,7 +16,8 @@ Rauheit → Raytatouille, BWPM, RTT-Fusion.
 Hatching aus Körpern (Nurbforge), Schreibfelder, Schreibjobs und Mehrmaterial aus benannten
 STEP-Körpern, Prozessbibliothek mit den Referenzprozessen, Schreibbahn im Format
 `voxelspaetzle-path`. Aus V2: Abschwächung im Lack und Belichtungsdosis auf einem Volumengitter
-mit Gauß-Kern; der vektorielle Fokus folgt mit Raytatouille v1 (D8). Siehe
+mit Gauß-Kern; der vektorielle Fokus folgt mit Raytatouille v1 (D8). Aus V3: Schwellenmodell mit
+Linienbreiten, Festkörper, Höhenkarten und Rauheitsspektren. Siehe
 [docs/roadmap.md](docs/roadmap.md).
 
 ## Installation
