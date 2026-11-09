@@ -6,6 +6,10 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V0-Spezifikation `docs/spezifikation.md`: Prozessmodell bis zum Schwellenmodell (Fokus über
+  |E|², Abschwächung, Dosis ∝ |E|⁴, lineare Akkumulation, Gauß-Näherung), Auflösungsgrößen aus
+  fischer2013, Datenformate für Prozessbibliothek, Schreibbahn, Volumenfelder und Ausgaben;
+  fischer2013 im Volltext gelesen; Testfall P23.
 - V0 begonnen: Plan mit Stufen V0–V10, Konventionen, Abhängigkeiten, Testfälle, Quellen, Regeln
   für Agenten, CI.
 - Referenzprozess schmid2023 (IP-S und IP-Black, Nanoscribe Photonic Professional GT, Dip-in mit
@@ -23,6 +27,7 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Geändert
 
+- Einheit der Dosis in den Konventionen korrigiert: mW²·s/µm⁴ statt mW²·s/µm³.
 - Entscheidungen D3–D6 als freigegeben eingetragen.
 - Konvention „Brechzahl“ um Absorption (ñ = n + iκ wie Raytatouille, BWPM und RTT-Fusion) und
   Material je Volumen (Lacke und Füllmaterialien, benannte STEP-Körper) erweitert (D7, freigegeben

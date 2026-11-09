@@ -6,8 +6,8 @@ Status: ✅ umgesetzt und grün, ◐ teilweise, ○ geplant.
 | --- | --- | --- | --- | --- |
 | P1 | Schreibbahn: Volumen und Oberfläche gegen das CAD, Schichtabstände | analytische Körper (Kugelkappe, Zylinder) | V1 | ○ |
 | P2 | Schreibfokus im Lack | Fieldtracing (Debye/Richards-Wolf), Brechzahlsprung analytisch | V2 | ○ |
-| P3 | Dosis von Punkt und Linie | analytische Integrale des Gauß-Fokus | V2 | ○ |
-| P4 | Voxelbreite und -länge über Leistung | Schwellenmodell analytisch, Literaturmessungen | V3 | ○ |
+| P3 | Dosis von Punkt und Linie | Gauß-Näherung analytisch (Spezifikation §3.6); Dosis ∝ \|E\|⁴·Δt (fischer2013, Abschn. 3); lineare Akkumulation (§3.5) | V2 | ○ |
+| P4 | Voxel- und Linienbreite über Leistung und Geschwindigkeit | d = w √(ln(D₀/D_th)) (Spezifikation §3.6); Warnung unter ≈ 40 % der Halbwertsbreite der Dosis (fischer2013, Abschn. 2); Literaturmessungen | V3 | ○ |
 | P5 | Treppen und Rauheit | Fourieranalyse der Bahn | V3 | ○ |
 | P6 | Polymerisation ohne Diffusion = Schwelle | Grenzfall | V4 | ○ |
 | P7 | Schrumpfung | freie Kugel, gebundene Platte analytisch | V5 | ○ |
@@ -26,3 +26,4 @@ Status: ✅ umgesetzt und grün, ◐ teilweise, ○ geplant.
 | P20 | Spalt aus Tinte im gedruckten Becken und Trennung der Beugungsordnungen | toulouse2021: Spaltbreite 1,3 µm (FWHM), 0. Ordnung räumlich getrennt von der 1.; Rauschen 5–20 %, Rauschfläche im Mittel 51 % der Signalfläche (Supplementary, Abschnitt 4) | V6, V10 | ○ |
 | P21 | Profiltreue des geblazeten Gitters (Dreiecksprofil, Nebenordnungen) | toulouse2021 (Supplementary, Abb. S3c, d): Profil nur angenähert, qualitativ im REM; Effizienzverlust in Nebenordnungen | V3, V6 | ○ |
 | P22 | Rundreise gedrucktes Teil → STEP → FourierGrating | Nurbforge `read_step_named`: Körper, Namen und Volumen unverändert; FourierGrating: Richtungen der Ordnungen nach der Gittergleichung, Energieerhaltung über die Ordnungen (wie RTT-Fusion K1) | V6 | ○ |
+| P23 | Auflösungsgrenzen des Fokus | fischer2013: Gl. 1–3; verallgemeinertes Sparrow-Kriterium mit vektorieller Debye-Rechnung (λ = 0,8 µm, NA = 1,4, n = 1,52, zirkular): Zweiphotonen a_xy = 200 nm, a_z = 500 nm; Einphotonen 288 nm, 726 nm | V2 | ○ |

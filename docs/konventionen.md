@@ -4,7 +4,8 @@ Verbindlich; dieselben wie Raytatouille, Fieldtracing, BWPM und RTT-Fusion.
 
 - **Einheiten:** Längen in mm im Austausch mit Raytatouille, intern in µm erlaubt (im Namen
   kenntlich: `_um`); Wellenlänge in µm (Vakuum); Leistung in mW, Schreibgeschwindigkeit in µm/s,
-  Dosis in mW²·s/µm³ (∫I² dt, relativ zur Schwelle angegeben).
+  Dosis in mW²·s/µm⁴ (∫I² dt mit I in mW/µm²; gespeichert relativ zur Schwelle, D/D_th;
+  `docs/spezifikation.md` §3.4).
 - **Koordinaten:** rechtshändig; Substratoberfläche bei z = 0, Teil bei z > 0 (Schreibrichtung
   von unten nach oben, wie üblich); Druckerkoordinaten werden über eine Pose auf diese abgebildet.
 - **Felder** (Schreibfokus): ∝ exp(i(k·r − ωt)), wie Fieldtracing.

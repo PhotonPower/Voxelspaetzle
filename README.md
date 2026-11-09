@@ -17,6 +17,7 @@ Rauheit → Raytatouille, BWPM, RTT-Fusion.
 ## Dokumentation
 
 - [Plan und Stufen](docs/roadmap.md)
+- [Spezifikation](docs/spezifikation.md)
 - [Konventionen](docs/konventionen.md)
 - [Abhängigkeiten](docs/abhaengigkeiten.md)
 - [Testfälle](docs/testfaelle.md)
