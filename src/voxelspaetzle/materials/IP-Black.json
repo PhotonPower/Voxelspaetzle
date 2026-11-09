@@ -1,0 +1,48 @@
+{
+  "format": "voxelspaetzle-material",
+  "schema_version": "0.1.0",
+  "data": {
+    "name": "IP-Black",
+    "index": {
+      "model": "sellmeier",
+      "state": "cured",
+      "B": [
+        1.03051,
+        0.220788,
+        1.00968
+      ],
+      "C_um2": [
+        0.00492832,
+        0.03002,
+        103.56
+      ],
+      "range_um": [
+        0.4,
+        0.9
+      ],
+      "source": "schmid2023, Abschn. 2 und Abb. 2 (Standardform mit B3, Satzfehler im Paper: Issue #9)"
+    },
+    "liquid_offset": {
+      "delta_n": 0.02,
+      "source": "schmid2023, Abschn. 2: nach 30 min UV gesättigt etwa 0,02 über der flüssigen Phase",
+      "notes": "constant over the range (assumption); the stated end points 1.505 and 1.48 of the liquid give about 0.023 (derived)"
+    },
+    "absorption": [
+      {
+        "wavelength_um": 0.78,
+        "alpha_per_mm": 1.0,
+        "states": [
+          "liquid",
+          "cured"
+        ],
+        "source": "schmid2023, Abschn. 2",
+        "notes": "extinction coefficient about 1 per mm; base not stated, taken as e (D7); liquid and cured not distinguished in the source"
+      }
+    ],
+    "interpolation": "linear_in_alpha",
+    "sources": [
+      "schmid2023"
+    ],
+    "notes": "visible absorption (450-650 nm) only as a figure (Abb. 1b), not tabulated; see docs/materialdaten.md"
+  }
+}

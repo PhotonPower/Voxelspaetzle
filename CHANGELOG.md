@@ -6,6 +6,10 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V4a: Polymerisationsgrad mit dem Grenzfall Schwellenmodell (`voxelspaetzle.polymerization`),
+  Materialdaten `voxelspaetzle-material` mit IP-Black (Sellmeier, Δn der flüssigen Phase,
+  Absorption bei 780 nm; `voxelspaetzle.materials`), optisches Feld n und κ je Wellenlänge vor
+  und nach der Entwicklung; Spezifikation §3.7, §5.3, §5.6; Testfälle P6, P13 (teilweise).
 - V3a: Schwellenmodell mit Linienquerschnitt (Breite, Höhe, Halbwertsbreite, Warnung,
   Empfindlichkeit), Festkörper als Materialfeld, Höhenkarte der Oberseite im Format
   `voxelspaetzle-heightmap`, Wandprofil und Spektrum (`voxelspaetzle.threshold`); Spezifikation
