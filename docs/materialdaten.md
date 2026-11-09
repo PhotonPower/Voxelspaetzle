@@ -1,6 +1,7 @@
 # Materialdaten (Literatur)
 
-> Literaturwerte bis zu eigenen Messungen (D2); Referenzprozesse zu D1. Jede Angabe mit Quelle (`docs/quellen.md`).
+> Literaturwerte bis zu eigenen Messungen (D2); Referenzprozesse zu D1. Absorption steht hier wie in
+> den Quellen als α in 1/mm; gespeichert wird später κ = αλ/(4π) (`docs/konventionen.md`, D7). Jede Angabe mit Quelle (`docs/quellen.md`).
 > **Abgeleitet** markierte Werte stehen nicht in der Quelle, sondern sind daraus berechnet; sie
 > sind keine Sollwerte für Tests, solange der Maintainer sie nicht freigibt.
 
@@ -123,7 +124,8 @@ n = 1,5276 (400 nm), 1,5113 (587,6 nm), 1,5051 (780 nm), 1,5027 (900 nm); Abbe-Z
 Die Basis des Extinktionskoeffizienten ist nicht angegeben. **Abgeleitet** (Basis e, Intensität):
 exp(−1/mm · 0,38 mm) = 0,68 bei einem Lackweg gleich dem Arbeitsabstand – passt zu ≈ 70 %.
 Aus 75 % bei 25 µm folgt α ≈ 11,5/mm im Absorptionsmaximum und damit 5,6 % bei 250 µm – grob
-konsistent mit „< 5 %“. Das Spektrum α(λ) liegt nur grafisch vor (Abb. 1b); Rohdaten laut Paper
+konsistent mit „< 5 %“. Als κ (**abgeleitet**): 6,2·10⁻⁵ bei 780 nm (α = 1/mm); ≈ 5·10⁻⁴ im
+Absorptionsmaximum, wenn es bei etwa 550 nm liegt (Abb. 1b: zwischen 450 und 650 nm). Das Spektrum α(λ) liegt nur grafisch vor (Abb. 1b); Rohdaten laut Paper
 beim Autor auf Anfrage. Die Transmission ist auf eine lackfreie Stelle desselben Substrats
 normiert (Beleuchtung NA ≤ 0,65, Abbildung NA 0,70).
 
