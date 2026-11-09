@@ -1,6 +1,6 @@
 # Plan und Stufen
 
-> Erstfassung 2026-11-07. Entscheidungen des Maintainers (offen: D1–D6) stehen am Ende.
+> Erstfassung 2026-11-07. Entscheidungen des Maintainers stehen am Ende.
 
 ## Ziel
 
@@ -32,13 +32,13 @@ Abweichungen enthält:
 | **V9 C++/CUDA-Kern** | Dosisfeld und Polymerisation auf großen Gittern (wie BWPM B4) | Sollwertdateien, Laufzeit |
 | **V10 Fusion und Pilot** | Adapter und Datenports für RTT-Fusion; Pilot: gedruckte Linse/Kappe auf der Faser (BWPM K6), gemeinsamer Pilot mit Scattuccino (gedruckte OCT-Sonde im Gewebephantom) | Konformitätssatz der Fusion; Vergleich Entwurf – Druckmodell – Messung |
 
-## Entscheidungen (offen, Issues mit Label `frage`)
+## Entscheidungen (Issues mit Label `frage`)
 
-| Nr. | Frage | Vorschlag |
+| Nr. | Frage | Stand |
 | --- | --- | --- |
-| D1 | Drucker, Lacke, Modus (z. B. Nanoscribe GT2/Quantum X, IP-S/IP-Dip/IP-Q, Dip-in/Öl) | offen – bestimmt Fokusmodell, Lackdaten und Schreibstrategien |
-| D2 | Messdaten für die Kalibrierung (Profile, Brechzahl, Fokusmessungen) | offen; bis dahin Literaturwerte |
-| D3 | Schreibbahn | eigener Slicer/Hatcher; Import der Maschinendatei, soweit das Format dokumentiert ist |
-| D4 | Mechanik für die Schrumpfung | hp-FEM um vektorielle H1-Elastizität erweitern (Vorschlag dort); bis dahin kleiner eigener P1-Tetraederlöser als Referenz |
-| D5 | Sprache und Kern | Python-Referenz (V1–V8), C++/CUDA-Kern für Dosis und Polymerisation (V9) |
-| D6 | Geometriekern | Nurbforge für CAD, Slicing, Fits und Export (keine fremden CAD-Bibliotheken) |
+| D1 | Drucker, Lacke, Modus (z. B. Nanoscribe GT2/Quantum X, IP-S/IP-Dip/IP-Q, Dip-in/Öl) | offen (#1) – bestimmt Fokusmodell, Lackdaten und Schreibstrategien |
+| D2 | Messdaten für die Kalibrierung (Profile, Brechzahl, Fokusmessungen) | offen (#2); bis dahin Literaturwerte |
+| D3 | Schreibbahn | **freigegeben** 2026-11-07 (#3): eigener Slicer/Hatcher; Import der Maschinendatei, soweit das Format dokumentiert ist |
+| D4 | Mechanik für die Schrumpfung | **freigegeben** 2026-11-07 (#4): hp-FEM um vektorielle H1-Elastizität erweitern (Vorschlag dort); bis dahin kleiner eigener P1-Tetraederlöser als Referenz |
+| D5 | Sprache und Kern | **freigegeben** 2026-11-07 (#5): Python-Referenz (V1–V8), C++/CUDA-Kern für Dosis und Polymerisation (V9) |
+| D6 | Geometriekern | **freigegeben** 2026-11-07 (#6): Nurbforge für CAD, Slicing, Fits und Export (keine fremden CAD-Bibliotheken) |
