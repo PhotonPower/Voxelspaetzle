@@ -163,6 +163,29 @@ g(ρ, z) = (2/(π w₀²)) exp(−2ρ²/w₀²) exp(−2z²/w_z²) und D₀ als 
 Die Form entspricht den Skalierungsgesetzen für Voxel (sun2003, nur zitiert); die Herleitung oben
 ist unabhängig davon.
 
+**Messgrößen** (V3): Wo die Dosis D_th kreuzt, wird zwischen den Gitterwerten linear
+interpoliert.
+
+- *Linienquerschnitt* an einer Stelle x: Breite (y) und Höhe (z) um das Dosismaximum der Ebene,
+  Halbwertsbreite der Dosis in y; Warnung, wenn die Breite unter 40 % dieser Halbwertsbreite liegt;
+  Empfindlichkeit (Δd/d)/(ΔP/P) = 1/ln(D_max/D_th) (Gauß-Profil, Dosis ∝ P²).
+- *Festkörper*: Materialfeld (0 = entwickelt, 1 = Lack) nach §5.3, mit der Schwelle.
+- *Höhenkarte* der Oberseite: in jeder Säule die höchste Kreuzung von D_th; NaN ohne Festkörper;
+  reicht der Festkörper bis an den oberen Gitterrand, ist die Karte als `clipped` markiert.
+- *Wandprofil* y(z) auf der +y-Seite an einer Stelle x.
+- *Spektrum*: einseitiges Amplitudenspektrum eines Profils (µm über 1/µm).
+
+**Welligkeit aus Hatching und Schichten** (Sollwerte für P5, eigene Herleitung): Linien längs x im
+Abstand h (Gauß-Kern) ergeben die Dosis S(y)·exp(−4z²/w_z²) mit S(y) = D₀ Σ_k exp(−4(y − kh)²/w₀²);
+die Oberseite liegt bei z(y) = (w_z/2)√(ln(S(y)/D_th)). Die relative Modulation von S bei der
+Periode h ist 2 exp(−π² w₀²/(4h²)) (Poisson-Summe). Für Schichten im Abstand Δz gilt dasselbe mit
+w_z und Δz für das Wandprofil y(z) = (w₀/2)√(ln(D₀ T(z)/D_th)), T(z) = Σ_k exp(−4(z − kΔz)²/w_z²).
+
+**Nicht im linearen Schwellenmodell:** die Verformungen bei parallelen Schichten und die Spirale
+bei 30° Hatchwinkel (schmid2023, P15) haben mechanische oder Stage-Ursachen (V5, V8); die kleinste
+auflösbare Gitterperiode (toulouse2021, P17) folgt aus dem Modell erst mit kalibrierten w₀ und D_th
+(V7). Proximity selbst ist über die lineare Akkumulation enthalten.
+
 ### 3.7 Polymerisation (V4, Schnittstelle)
 
 Der Polymerisationsgrad α(r) ∈ [0, 1] folgt aus der Dosisgeschichte. Grenzfall ohne Diffusion und
@@ -332,6 +355,12 @@ Parameter des Kerns) und `source` (Herkunft).
 | Volumen (n, κ) | §5.3, bei Bedarf auf Brechzahlstufen quantisiert (mit Fehlerangabe) | BWPM; später Datenport N3 (RTT-Fusion#20) |
 | Oberfläche | Höhenkarte z(x, y) auf regulärem Gitter mit den Materialien beider Seiten | SpeckleBem, Rauheitsspektrum |
 | Flächenmodell | Fit über Nurbforge | Raytatouille, sobald Zernike-/XY-/Grid-Sag umgesetzt sind (Raytatouille#316) |
+
+### 5.5 Höhenkarten (`voxelspaetzle-heightmap`)
+
+`origin_um` (x, y der ersten Gitterstelle), `step_um` (x, y), `z_um` (ny, nx; NaN ohne
+Festkörper), `material_below`, `material_above`, `clipped` (Festkörper am oberen Gitterrand) und
+`source` (Schwelle und Herkunft). Empfänger: SpeckleBem (Import von Höhenkarten), Rauheitsspektren.
 
 ## 6. Offene Punkte
 
