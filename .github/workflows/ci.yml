@@ -9,7 +9,7 @@ jobs:
   check:
     name: ruff, mypy, pytest (Python ${{ matrix.python }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +29,20 @@ jobs:
             pip wheel --no-deps -w wheelhouse "nurbforge @ git+https://github.com/PhotonPower/Nurbforge@v0.6.0"
           fi
       - run: pip install wheelhouse/nurbforge-*.whl
+      # FourierGrating: test dependency for P21/P22, pinned commit, built once per Python and cached
+      - uses: actions/cache@v4
+        with:
+          path: fgwheel
+          key: fouriergrating-2c35800-${{ runner.os }}-py${{ matrix.python }}
+      - name: FourierGrating wheel (built once per commit and Python, then cached)
+        run: |
+          if ! ls fgwheel/fouriergrating-*.whl > /dev/null 2>&1; then
+            pip wheel --no-deps -w fgwheel "fouriergrating @ git+https://github.com/PhotonPower/FourierGrating@2c35800cf3a743bec00555a026160438f7e323bb"
+          fi
+      - run: pip install fgwheel/fouriergrating-*.whl
       - run: pip install -r requirements-dev.txt && pip install -e .
       - run: ruff check . && ruff format --check .
       - run: mypy
       - run: pytest -q
+        env:
+          VOXELSPAETZLE_REQUIRE_FG: "1"
