@@ -25,3 +25,4 @@ Status: ✅ umgesetzt und grün, ◐ teilweise, ○ geplant.
 | P19 | Auflösungsverlust durch Rauheit | toulouse2021: 17,8 ± 1,7 nm gemessen gegen 14,5 ± 1,4 nm (WPM) bei 633 nm; Rauheit IP-Dip ≈ 100 nm | V3, V6 | ○ |
 | P20 | Spalt aus Tinte im gedruckten Becken und Trennung der Beugungsordnungen | toulouse2021: Spaltbreite 1,3 µm (FWHM), 0. Ordnung räumlich getrennt von der 1.; Rauschen 5–20 %, Rauschfläche im Mittel 51 % der Signalfläche (Supplementary, Abschnitt 4) | V6, V10 | ○ |
 | P21 | Profiltreue des geblazeten Gitters (Dreiecksprofil, Nebenordnungen) | toulouse2021 (Supplementary, Abb. S3c, d): Profil nur angenähert, qualitativ im REM; Effizienzverlust in Nebenordnungen | V3, V6 | ○ |
+| P22 | Rundreise gedrucktes Teil → STEP → FourierGrating | Nurbforge `read_step_named`: Körper, Namen und Volumen unverändert; FourierGrating: Richtungen der Ordnungen nach der Gittergleichung, Energieerhaltung über die Ordnungen (wie RTT-Fusion K1) | V6 | ○ |
