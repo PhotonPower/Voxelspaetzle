@@ -6,6 +6,13 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V1a: Schichthöhen nach der Mittelpunktregel ohne Schnitt auf kritischen Höhen, Schnitte über
+  Nurbforge mit Sehnentoleranz (`voxelspaetzle.geometry`), Hatching auf festem Gitter mit
+  halboffener Regel und Winkel je Schicht (`voxelspaetzle.hatching`), Slicer
+  (`voxelspaetzle.slicer`), Datenmodell und Format der Schreibbahn (`voxelspaetzle.path`),
+  JSON-Hülle mit `.npz` für große Arrays (`voxelspaetzle.envelope`); Spezifikation §3.9; Testfall
+  P1 teilweise (Volumen, Schnitte, Schichten); Nurbforge als Laufzeitabhängigkeit, in der CI
+  gecacht.
 - V0-Spezifikation `docs/spezifikation.md`: Prozessmodell bis zum Schwellenmodell (Fokus über
   |E|², Abschwächung, Dosis ∝ |E|⁴, lineare Akkumulation, Gauß-Näherung), Auflösungsgrößen aus
   fischer2013, Datenformate für Prozessbibliothek, Schreibbahn, Volumenfelder und Ausgaben;

@@ -4,7 +4,7 @@ Status: ✅ umgesetzt und grün, ◐ teilweise, ○ geplant.
 
 | Nr. | Prüfung | Referenz | Stufe | Status |
 | --- | --- | --- | --- | --- |
-| P1 | Schreibbahn: Volumen und Oberfläche gegen das CAD, Schichtabstände | analytische Körper (Kugelkappe, Zylinder) | V1 | ○ |
+| P1 | Schreibbahn gegen das CAD: Schnittflächen und -umfänge, Schichtabstände, geschriebenes Volumen, Hatch-Mittelpunkte im Körper | analytische Körper (Zylinder, Kugelkappe, Ring mit Loch) | V1 | ◐ V1a: Volumenfehler bei Δz = h = 0,5/0,2/0,1 µm: Zylinder r = 10, h = 5: +1,2·10⁻³/+2,9·10⁻⁴/+8,5·10⁻⁵; Kugelkappe R = 50, h = 10: −1,2·10⁻⁴/+1,9·10⁻⁵/−8,8·10⁻⁷; Ring 10/4: +5,2·10⁻⁴/+1,2·10⁻⁴/+2,4·10⁻⁵; Feldgrenzen offen (V1b) |
 | P2 | Schreibfokus im Lack | Fieldtracing (Debye/Richards-Wolf), Brechzahlsprung analytisch | V2 | ○ |
 | P3 | Dosis von Punkt und Linie | Gauß-Näherung analytisch (Spezifikation §3.6); Dosis ∝ \|E\|⁴·Δt (fischer2013, Abschn. 3); lineare Akkumulation (§3.5) | V2 | ○ |
 | P4 | Voxel- und Linienbreite über Leistung und Geschwindigkeit | d = w √(ln(D₀/D_th)) (Spezifikation §3.6); Warnung unter ≈ 40 % der Halbwertsbreite der Dosis (fischer2013, Abschn. 2); Literaturmessungen | V3 | ○ |
