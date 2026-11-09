@@ -6,6 +6,10 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V3a: Schwellenmodell mit Linienquerschnitt (Breite, Höhe, Halbwertsbreite, Warnung,
+  Empfindlichkeit), Festkörper als Materialfeld, Höhenkarte der Oberseite im Format
+  `voxelspaetzle-heightmap`, Wandprofil und Spektrum (`voxelspaetzle.threshold`); Spezifikation
+  §3.6 (Messgrößen, Welligkeit, Grenzen) und §5.5; Testfälle P4, P5; P15 und P17 neu eingeordnet.
 - V2b: Abschwächung bis zum Fokus mit Umrechnung κ ↔ α und Kegelmittelung
   (`voxelspaetzle.attenuation`); Testfall P12.
 - V2c: Belichtungsdosis auf einem Volumengitter mit austauschbarem Fokus-Kern, Gauß-Kern bis D8,
