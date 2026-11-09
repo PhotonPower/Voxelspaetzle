@@ -15,6 +15,7 @@ from voxelspaetzle.fields import FieldGrid
 from voxelspaetzle.geometry import body_z_range, section_loops, slice_heights
 from voxelspaetzle.hatching import common_length, line_intervals
 from voxelspaetzle.path import WritePath
+from voxelspaetzle.process import Process
 from voxelspaetzle.slicer import WriteParameters, slice_shell
 
 KINDS = ("write", "fill")
@@ -35,6 +36,13 @@ class BodySpec:
     params: WriteParameters | None
     kind: str = "write"
     markers: list[dict[str, Any]] = field(default_factory=list)
+
+    @classmethod
+    def from_process(
+        cls, name: str, process: Process, resist: str, parameter_set: str, **kw: Any
+    ) -> BodySpec:
+        """Writing body with resist and parameter set from a process (§5.1)."""
+        return cls(name, resist, process.write_parameters(resist, parameter_set), **kw)
 
     def __post_init__(self) -> None:
         if self.kind not in KINDS:

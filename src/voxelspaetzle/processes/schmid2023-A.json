@@ -1,0 +1,86 @@
+{
+  "format": "voxelspaetzle-process",
+  "schema_version": "0.1.0",
+  "data": {
+    "name": "schmid2023-A",
+    "printer": {
+      "model": "Nanoscribe Photonic Professional GT",
+      "wavelength_um": 0.78,
+      "rep_rate_MHz": 80.0,
+      "pulse_fs": null,
+      "power_100pct_mW": 58.0
+    },
+    "objective": {
+      "name": "Zeiss LCI Plan-Neofluar 25x/0.8",
+      "na": 0.8,
+      "magnification": 25.0,
+      "working_distance_um": 380.0,
+      "design_index": null
+    },
+    "mode": "dip_in_wrapped",
+    "resist_path_um": 380.0,
+    "polarization": null,
+    "resists": {
+      "IP-Black": {
+        "threshold_dose": null,
+        "parameter_sets": {
+          "aperture": {
+            "slicing_um": 2.0,
+            "hatching_um": 1.0,
+            "power_percent": 100.0,
+            "speed_um_per_s": 40000.0,
+            "notes": "apertures and transmission patches; 100 % = 58 mW, 725 pJ"
+          },
+          "index_patch": {
+            "slicing_um": 0.2,
+            "hatching_um": 0.5,
+            "power_percent": 100.0,
+            "speed_um_per_s": 40000.0,
+            "notes": "refractive-index patch, 5 mm diameter, 250 um high"
+          },
+          "lens": {
+            "slicing_um": 0.2,
+            "hatching_um": 0.5,
+            "power_mW": null,
+            "speed_um_per_s": null,
+            "hatch_angle_step_deg": 90.0,
+            "notes": "power and speed not given; 90 deg between layers best, parallel layers deform, 30 deg gives a spiral; piezo settling 2-5 s reduces deformation"
+          }
+        }
+      },
+      "IP-S": {
+        "threshold_dose": null,
+        "parameter_sets": {
+          "lens": {
+            "slicing_um": 0.2,
+            "hatching_um": 0.5,
+            "power_percent": 70.0,
+            "speed_um_per_s": 50000.0,
+            "notes": "singlet 150 um diameter, 20 um high; 70 % = 508 pJ"
+          }
+        }
+      }
+    },
+    "development": [
+      {
+        "medium": "mr-Dev 600",
+        "duration_s": 900
+      },
+      {
+        "medium": "isopropanol",
+        "duration_s": 300
+      }
+    ],
+    "postprocess": [
+      {
+        "type": "fill",
+        "material": "NPS-J"
+      }
+    ],
+    "sources": [
+      "schmid2023",
+      "toulouse2022"
+    ],
+    "notes": "resist_path_um assumed equal to the working distance (wrapped objective, docs/materialdaten.md); polarization and pulse duration not stated (D1). Hybrid prints: IP-S first, development, then IP-Black with alignment markers from the first job."
+  }
+}
