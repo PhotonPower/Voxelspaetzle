@@ -6,6 +6,9 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V6b: gedruckte Gitter in FourierGrating gerechnet (Gittergleichung, Energieerhaltung,
+  Blaze-Effizienz gegen die skalare Näherung, gedrucktes gegen entworfenes Profil); FourierGrating
+  als gepinnte Testabhängigkeit, in der CI gebaut und gecacht; Testfälle P22 (✅), P21 (qualitativ).
 - V6a: Ausgaben an BWPM (Labelgitter mit Brechzahlstufen und Fehlerangabe), FourierGrating
   (`lamellar1d`-Schichten der Voxeltreppe), STL der Voxeloberfläche und Transmission längs z
   (`voxelspaetzle.export`); Spezifikation §3.12, §5.4; Testfälle P27, P22 und P11 teilweise.

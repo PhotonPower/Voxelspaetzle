@@ -43,3 +43,8 @@ ignore_missing_imports = true
 # Nurbforge re-exports its compiled core without __all__; its API is untyped (Any) here.
 module = ["nurbforge", "nurbforge.*"]
 implicit_reexport = true
+
+[[tool.mypy.overrides]]
+# FourierGrating is an optional test dependency (built from source in CI).
+module = ["fouriergrating", "fouriergrating.*"]
+ignore_missing_imports = true

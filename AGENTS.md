@@ -11,6 +11,7 @@ Voxelspaetzle simuliert die Herstellung zwei-photonen-gedruckter Mikrooptik (2PP
 
 ```bash
 pip install "nurbforge @ git+https://github.com/PhotonPower/Nurbforge@v0.6.0"  # C++-Build
+pip install "fouriergrating @ git+https://github.com/PhotonPower/FourierGrating@2c35800cf3a743bec00555a026160438f7e323bb"  # optional, Tests P21/P22
 pip install -r requirements-dev.txt && pip install -e .
 pytest
 ruff check . && ruff format --check . && mypy
