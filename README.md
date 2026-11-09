@@ -20,6 +20,7 @@ Rauheit → Raytatouille, BWPM, RTT-Fusion.
 - [Konventionen](docs/konventionen.md)
 - [Abhängigkeiten](docs/abhaengigkeiten.md)
 - [Testfälle](docs/testfaelle.md)
+- [Materialdaten (Literatur)](docs/materialdaten.md)
 - [Quellen](docs/quellen.md)
 - [Regeln für Programmieragenten](AGENTS.md)
 
