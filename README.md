@@ -12,9 +12,10 @@ und Toleranzanalyse über die Prozessstreuung.
 (Fieldtracing) → Dosisfeld → Polymerisationsgrad → Entwicklung und Schrumpfung → Form, Brechzahl,
 Rauheit → Raytatouille, BWPM, RTT-Fusion.
 
-**Stand:** V0 (Spezifikation) abgeschlossen, V1a und V1b umgesetzt: Schichten, Konturen und
+**Stand:** V0 (Spezifikation) abgeschlossen, V1a–V1c umgesetzt: Schichten, Konturen mit Offset und
 Hatching aus Körpern (Nurbforge), Schreibfelder, Schreibjobs und Mehrmaterial aus benannten
-STEP-Körpern, Schreibbahn im Format `voxelspaetzle-path`. Siehe
+STEP-Körpern, Prozessbibliothek mit den Referenzprozessen, Schreibbahn im Format
+`voxelspaetzle-path`. Siehe
 [docs/roadmap.md](docs/roadmap.md).
 
 ## Installation
@@ -25,11 +26,18 @@ pip install -e .
 ```
 
 ```python
-from voxelspaetzle.slicer import WriteParameters, slice_shell
+from voxelspaetzle.assembly import BodySpec, read_step_bodies, slice_assembly
+from voxelspaetzle.fields import FieldGrid
+from voxelspaetzle.process import load_process
 
-params = WriteParameters(slicing_um=0.2, hatching_um=0.5, power_mW=20.0, speed_um_per_s=5e4)
-path = slice_shell(shell, params, resist="IP-S", process="schmid2023-A")  # shell: nurbforge.Shell in µm
-path.save("lens.path.json")
+process = load_process("schmid2023-A")
+bodies = read_step_bodies("hybrid_lens.step")  # STEP in µm, one named body per material
+specs = [
+    BodySpec.from_process("Lens", process, "IP-S", "lens"),
+    BodySpec.from_process("Aperture", process, "IP-Black", "aperture"),
+]
+path = slice_assembly(bodies, specs, process=process.name, fields=FieldGrid(size_xy_um=200.0))
+path.save("hybrid_lens.path.json")
 ```
 
 ## Dokumentation

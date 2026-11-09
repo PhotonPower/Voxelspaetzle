@@ -1,6 +1,7 @@
 # Materialdaten (Literatur)
 
-> Literaturwerte bis zu eigenen Messungen (D2); Referenzprozesse zu D1. Absorption steht hier wie in
+> Literaturwerte bis zu eigenen Messungen (D2); Referenzprozesse zu D1. Die Prozessparameter stehen
+> maschinenlesbar in `src/voxelspaetzle/processes/` (Spezifikation §5.1). Absorption steht hier wie in
 > den Quellen als α in 1/mm; gespeichert wird später κ = αλ/(4π) (`docs/konventionen.md`, D7). Jede Angabe mit Quelle (`docs/quellen.md`).
 > **Abgeleitet** markierte Werte stehen nicht in der Quelle, sondern sind daraus berechnet; sie
 > sind keine Sollwerte für Tests, solange der Maintainer sie nicht freigibt.

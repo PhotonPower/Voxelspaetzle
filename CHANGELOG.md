@@ -6,6 +6,11 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V1c: Offsets von Schnittschleifen mit Gehrung, Bereinigung kollabierter Kanten und Prüfung auf
+  Schnitte (`voxelspaetzle.offset`); mehrere Konturen mit Offset und Hatch-Offset im Slicer;
+  Prozessbibliothek `voxelspaetzle-process` mit den Referenzprozessen `schmid2023-A` und
+  `toulouse2021-B` (`voxelspaetzle.process`), `BodySpec.from_process`; Spezifikation §3.9 und
+  §5.1 ergänzt; Testfälle P25, P26.
 - V1b: Schreibfelder mit Teilung an Feldgrenzen, Feldtabelle und Schreibreihenfolge
   (`voxelspaetzle.fields`); Schreibjobs und Mehrmaterial aus benannten STEP-Körpern mit
   Überlappungsregel `error`/`priority` auf dem Schreibraster und Nachbearbeitung `fill`
@@ -40,6 +45,8 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Geändert
 
+- V1d (Import der Maschinendatei) zurückgestellt, bis Beispieldateien und Formatbeschreibung vorliegen.
+- `WriteParameters.contour` ersetzt durch `contour_count` (0 = keine Kontur) mit Offsets.
 - Einheit der Dosis in den Konventionen korrigiert: mW²·s/µm⁴ statt mW²·s/µm³.
 - Entscheidungen D3–D6 als freigegeben eingetragen.
 - Konvention „Brechzahl“ um Absorption (ñ = n + iκ wie Raytatouille, BWPM und RTT-Fusion) und

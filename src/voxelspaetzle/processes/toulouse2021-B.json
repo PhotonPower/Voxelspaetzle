@@ -1,0 +1,65 @@
+{
+  "format": "voxelspaetzle-process",
+  "schema_version": "0.1.0",
+  "data": {
+    "name": "toulouse2021-B",
+    "printer": {
+      "model": "Nanoscribe Photonic Professional GT2",
+      "wavelength_um": 0.78,
+      "rep_rate_MHz": 80.0,
+      "pulse_fs": 100.0,
+      "power_100pct_mW": null
+    },
+    "objective": {
+      "name": null,
+      "na": null,
+      "magnification": null,
+      "working_distance_um": null,
+      "design_index": null
+    },
+    "mode": "dip_in",
+    "resist_path_um": null,
+    "polarization": null,
+    "resists": {
+      "IP-Dip": {
+        "threshold_dose": null,
+        "parameter_sets": {
+          "spectrometer": {
+            "slicing_um": 0.1,
+            "hatching_um": 0.25,
+            "power_mW": 7.5,
+            "speed_um_per_s": 15000.0,
+            "hatch_angle_deg": 90.0,
+            "hatch_angle_step_deg": 0.0,
+            "notes": "hatched strictly along the grating lines (y); printing time just below 2 h"
+          }
+        }
+      }
+    },
+    "development": [
+      {
+        "medium": "PGMEA",
+        "duration_s": 480
+      },
+      {
+        "medium": "isopropanol",
+        "duration_s": 120
+      },
+      {
+        "medium": "nitrogen blower",
+        "duration_s": null
+      }
+    ],
+    "postprocess": [
+      {
+        "type": "fill",
+        "material": "NPS-J",
+        "method": "super-fine inkjet SIJ-S030"
+      }
+    ],
+    "sources": [
+      "toulouse2021"
+    ],
+    "notes": "laser: specified 120 mW average output, about 100 fs at the source, about 80 MHz; objective not stated. Grating periods below 650 nm not resolved in bulk (P17)."
+  }
+}
