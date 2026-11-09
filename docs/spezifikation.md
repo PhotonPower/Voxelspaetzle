@@ -301,6 +301,22 @@ Ein Schreibfeld ist der Bereich, den der Drucker ohne Bewegung des Verfahrtischs
   nach dem zuletzt davor genannten Job in der Schreibbahn. Ein `fill` vor dem ersten Job ist ein
   Fehler.
 
+### 3.12 Ausgaben an das Framework (V6a)
+
+- **BWPM:** Labelgitter (nz, ny, nx) mit einer komplexen Brechzahl ñ = n + iκ je Label, Längen in
+  mm, Felder wie `bwpm.adapter.Structure` (BWPM ist keine Abhängigkeit; Umwandlung, wenn das Paket
+  installiert ist). Höchstens `max_levels` verschiedene Werte bleiben exakt; sonst wird n in
+  gleich breite Klassen geteilt (Klassenmitte, κ je Klasse gemittelt) und die größte Abweichung
+  |ñ − ñ_Stufe| ausgegeben (höchstens halbe Klassenbreite in n). Fehlende Absorption (NaN) ist ein
+  Fehler. Gültigkeit der Stufen an schrägen Flächen nach BWPM E4/E5.
+- **FourierGrating:** eine Periode des Voxel-Festkörpers (Gitterbreite in x = Periode, eine Zeile
+  y) als `lamellar1d`-Schichten von unten nach oben; Bruchstellen auf Voxelgrenzen, gleiche
+  aufeinanderfolgende Voxellagen zusammengefasst. Das ist die exakte Voxeltreppe des Modells und
+  braucht keinen Umweg über STEP.
+- **STL:** geschlossene Oberfläche der entwickelten Voxel aus den Flächen zwischen Festkörper und
+  Umgebung, Normalen nach außen, in µm; das Format speichert float32 (relative Genauigkeit ≈ 10⁻⁷).
+- **Transmission längs z:** T(x, y) = exp(−Σ 4πκ Δz/λ) durch das optische Feld (§3.3).
+
 ## 4. Auflösungsgrößen für Tests
 
 Aus fischer2013 (Gleichungsnummern aus dem Volltext); λ Vakuumwellenlänge, n Brechzahl des
@@ -383,8 +399,9 @@ Parameter des Kerns) und `source` (Herkunft). `n` und `kappa` haben die Form (n�
 
 | Ausgabe | Format | Empfänger |
 | --- | --- | --- |
-| Form | STEP in µm, ein benannter Körper je Material und Prozessschritt (`docs/konventionen.md`) | Nurbforge, FourierGrating |
-| Volumen (n, κ) | §5.3, bei Bedarf auf Brechzahlstufen quantisiert (mit Fehlerangabe) | BWPM; später Datenport N3 (RTT-Fusion#20) |
+| Form (Voxel) | STL der Voxeloberfläche in µm (§3.12) | allgemein; Nurbforge-Fit und STEP mit benannten Körpern folgen (V6b) |
+| Gitter (Voxel) | `lamellar1d`-Schichten einer Periode (§3.12) | FourierGrating |
+| Volumen (n, κ) | Labelgitter mit Brechzahlstufen und Fehlerangabe (§3.12) | BWPM; später Datenport N3 (RTT-Fusion#20) |
 | Oberfläche | Höhenkarte z(x, y) auf regulärem Gitter mit den Materialien beider Seiten | SpeckleBem, Rauheitsspektrum |
 | Flächenmodell | Fit über Nurbforge | Raytatouille, sobald Zernike-/XY-/Grid-Sag umgesetzt sind (Raytatouille#316) |
 

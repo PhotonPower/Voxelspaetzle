@@ -19,7 +19,8 @@ STEP-Körpern, Prozessbibliothek mit den Referenzprozessen, Schreibbahn im Forma
 mit Gauß-Kern; der vektorielle Fokus folgt mit Raytatouille v1 (D8). Aus V3: Schwellenmodell mit
 Linienbreiten, Festkörper, Höhenkarten und Rauheitsspektren. Aus V4a: Polymerisationsgrad,
 Materialdaten (IP-Black) und das optische Feld (n, κ) des gedruckten Teils. Aus V5a: Schrumpfung
-mit linearer Elastizität auf den Voxeln und der Zugang des Entwicklers. Siehe
+mit linearer Elastizität auf den Voxeln und der Zugang des Entwicklers. Aus V6a: Ausgaben an
+BWPM (Labelgitter), FourierGrating (Schichten) und als STL. Siehe
 [docs/roadmap.md](docs/roadmap.md).
 
 ## Installation
