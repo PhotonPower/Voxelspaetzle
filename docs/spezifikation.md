@@ -176,6 +176,44 @@ Literaturpunkt: Wegener et al. kompensierten die axiale Schrumpfung von Woodpile
   schmid2023).
 - **Prüfmaß (P1):** geschriebenes Volumen Σ Segmentlänge · h · Δz der Hatch-Segmente.
 
+### 3.10 Schreibfelder (V1b)
+
+Ein Schreibfeld ist der Bereich, den der Drucker ohne Bewegung des Verfahrtischs schreibt
+(Galvo- bzw. Piezo-Hub).
+
+- **Raster:** quadratische Felder der Kantenlänge s_xy; Feld (i, j) überdeckt
+  x ∈ [o_x + (i − ½)s_xy, o_x + (i + ½)s_xy), y entsprechend, also liegen die Feldmitten
+  (Tischpositionen) auf o + (i, j)·s_xy. Höhenblöcke der Höhe s_z (Hub des z-Tischs):
+  Block k überdeckt z ∈ [o_z + k·s_z, o_z + (k + 1)·s_z); s_z = ∞ heißt ein Block.
+- **Teilung:** Segmente werden an den Feldgrenzen geteilt (halboffen: ein Punkt auf der Grenze
+  gehört zum oberen Feld); Kreuzungen in x und y am selben Punkt ergeben einen Schnitt. Jedes
+  Stück trägt den Index seines Feldes; Längen und Volumen bleiben bis auf Rundung erhalten.
+- **Feldtabelle und Reihenfolge:** je Job die berührten Felder mit Index (i, j, k) und
+  Tischposition, in Schreibreihenfolge: Höhenblöcke aufwärts, darin Zeilen j aufwärts, in jeder
+  Zeile i abwechselnd vorwärts und rückwärts. Geschrieben wird Feld für Feld, im Feld Schicht für
+  Schicht.
+- **Nicht in V1b:** Überlappung benachbarter Felder, Scherwinkel der Blockgrenzen,
+  Positionierfehler des Tischs (V3, V8).
+
+### 3.11 Schreibjobs und Mehrmaterial (V1b)
+
+- **Eingang:** STEP in µm mit benannten Körpern (`docs/konventionen.md`) oder Körper im Speicher;
+  zu jedem verwendeten Körper eine Rolle: Material, Parametersatz und Art `write` oder `fill`.
+- **Jobs:** jeder `write`-Körper wird ein Job mit seinem Lack, in der angegebenen Reihenfolge.
+  Justiermarken gibt der Aufrufer vor; sie werden unverändert in den Job übernommen (ihre
+  Erzeugung hängt am Drucker, D1).
+- **Überlappung** zweier `write`-Körper: `error` (Standard) bricht ab, `priority` lässt in
+  späteren Jobs das Volumen aller früheren Körper aus. Beides wird auf dem Schreibraster
+  bestimmt: Schicht für Schicht die gemeinsame bzw. abzuziehende Länge der Innenintervalle längs
+  der Hatchlinien (§3.9). Bei `priority` fallen außerdem Konturstücke weg, deren Mitte in einem
+  früheren Körper liegt; die gemeinsame Grenzfläche schreibt die Kontur des früheren Jobs.
+  3D-Boolesche Operationen werden dafür nicht verwendet (Nurbforge 0.6.0: Differenz mit
+  koplanaren Flächen nicht geschlossen, Nurbforge#45; Schnittmengen langsam, von STEP-Körpern
+  etwa neunmal langsamer, Nurbforge#46).
+- **`fill`-Körper** (z. B. Tinte NPS-J) werden nicht geschnitten; sie stehen als Nachbearbeitung
+  nach dem zuletzt davor genannten Job in der Schreibbahn. Ein `fill` vor dem ersten Job ist ein
+  Fehler.
+
 ## 4. Auflösungsgrößen für Tests
 
 Aus fischer2013 (Gleichungsnummern aus dem Volltext); λ Vakuumwellenlänge, n Brechzahl des
@@ -233,9 +271,11 @@ Einträge.
 | `jobs` | Liste der Schreibjobs in Druckreihenfolge |
 | `jobs[].resist` | Lack des Jobs |
 | `jobs[].markers` | Justiermarken (Lage, Form) für den nächsten Job |
+| `jobs[].fields` | Feldtabelle in Schreibreihenfolge: `index` (i, j, k), `center_um` (Tischposition) (§3.10) |
+| `jobs[].field_size_um` | (s_xy, s_xy, s_z) oder `null` ohne Feldraster |
 | `jobs[].layers` | Liste der Schichten: `z_um`, `hatch_angle_rad` |
-| `layers[].segments` | Arrays je Segment: `start_um` (N, 3), `end_um` (N, 3), `power_mW` (N), `speed_um_per_s` (N), `kind` (N; 0 Kontur, 1 Hatching, 2 Punkt), `dwell_s` (N; nur Punkte), `region` (N; Bereich für die Hatchrichtung) |
-| `postprocess` | Nachbearbeitung nach dem Job: `type` (`fill`), `material`, `body` (Name des Zielkörpers in der STEP-Datei) |
+| `layers[].segments` | Arrays je Segment: `start_um` (N, 3), `end_um` (N, 3), `power_mW` (N), `speed_um_per_s` (N), `kind` (N; 0 Kontur, 1 Hatching, 2 Punkt), `dwell_s` (N; nur Punkte), `region` (N; Bereich für die Hatchrichtung), `field` (N; Index in `fields`) |
+| `postprocess` | Nachbearbeitungen: `type` (`fill`), `material`, `body` (Name des Zielkörpers in der STEP-Datei), `after_job` (Index des Jobs davor) |
 | `source` | Herkunft: Slicer von Voxelspaetzle oder importierte Maschinendatei (D3) |
 
 ### 5.3 Volumenfelder (`voxelspaetzle-field`)
