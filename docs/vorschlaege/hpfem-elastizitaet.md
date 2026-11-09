@@ -1,6 +1,9 @@
 # Vorschlag für hp-FEM: lineare Elastizität mit Eigendehnung
 
 > Entwurf aus Voxelspaetzle (D4); in hp-FEM nur lesend. Zur Entscheidung durch den Maintainer.
+>
+> Stand hp-FEM 0.2.0 (`64413c5`, gelesen 2026-11-09): keine Elastizität; vorhanden sind
+> Maxwell-Löser und eine thermo-optische Kopplung (M9, stationäre Wärmeleitung).
 
 Für die Schrumpfung gedruckter Teile genügt lineare Elastizität mit Eigendehnung:
 
