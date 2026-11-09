@@ -14,8 +14,10 @@ Verbindlich; dieselben wie Raytatouille, Fieldtracing, BWPM und RTT-Fusion.
   Längeneinheiten (κ ≥ 0 dämpft bei exp(i(k·r − ωt))). Getrennt: bei der Gebrauchswellenlänge der
   Optik (Dispersion über Cauchy- oder Sellmeier-Parameter, α(λ) als Tabelle) und bei der
   Schreibwellenlänge (Fokus, Abschwächung, Dosis).
-- **Material:** jedes Volumen trägt den Lack (z. B. `IP-S`, `IP-Black`) und beim Mehrmaterialdruck
-  die Nummer des Schreibjobs; Lackdaten aus `docs/materialdaten.md` bzw. aus Messungen (D2).
+- **Material:** jedes Volumen trägt sein Material – Lack (z. B. `IP-S`, `IP-Dip`, `IP-Black`) oder
+  Füllmaterial aus der Nachbearbeitung (z. B. Silbertinte `NPS-J`) – und den Prozessschritt, der es
+  erzeugt hat (Schreibjob bzw. Nachbearbeitung); Materialdaten aus `docs/materialdaten.md` bzw. aus
+  Messungen (D2).
 - **Polymerisationsgrad:** 0 (flüssig) bis 1; Schwelle des Entwicklers als Parameter.
 - **Ergebnisse:** Format `raytatouille-result` (ADR 0023); Flächen als Nurbforge-/STEP-Daten,
   Felder als reguläre Gitter.
