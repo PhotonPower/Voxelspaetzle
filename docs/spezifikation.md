@@ -208,7 +208,8 @@ Ein Schreibfeld ist der Bereich, den der Drucker ohne Bewegung des Verfahrtischs
   der Hatchlinien (§3.9). Bei `priority` fallen außerdem Konturstücke weg, deren Mitte in einem
   früheren Körper liegt; die gemeinsame Grenzfläche schreibt die Kontur des früheren Jobs.
   3D-Boolesche Operationen werden dafür nicht verwendet (Nurbforge 0.6.0: Differenz mit
-  koplanaren Flächen nicht geschlossen; Schnittmengen von STEP-Körpern langsam).
+  koplanaren Flächen nicht geschlossen, Nurbforge#45; Schnittmengen langsam, von STEP-Körpern
+  etwa neunmal langsamer, Nurbforge#46).
 - **`fill`-Körper** (z. B. Tinte NPS-J) werden nicht geschnitten; sie stehen als Nachbearbeitung
   nach dem zuletzt davor genannten Job in der Schreibbahn. Ein `fill` vor dem ersten Job ist ein
   Fehler.
