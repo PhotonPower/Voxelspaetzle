@@ -6,6 +6,12 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V1b: Schreibfelder mit Teilung an Feldgrenzen, Feldtabelle und Schreibreihenfolge
+  (`voxelspaetzle.fields`); Schreibjobs und Mehrmaterial aus benannten STEP-Körpern mit
+  Überlappungsregel `error`/`priority` auf dem Schreibraster und Nachbearbeitung `fill`
+  (`voxelspaetzle.assembly`); Hatching mit ausgeschlossenen Bereichen; Spezifikation §3.10,
+  §3.11 und Format §5.2 (`field`, `fields`, `field_size_um`, `after_job`); Testfälle P1 (✅) und
+  P24.
 - V1a: Schichthöhen nach der Mittelpunktregel ohne Schnitt auf kritischen Höhen, Schnitte über
   Nurbforge mit Sehnentoleranz (`voxelspaetzle.geometry`), Hatching auf festem Gitter mit
   halboffener Regel und Winkel je Schicht (`voxelspaetzle.hatching`), Slicer

@@ -8,7 +8,7 @@
 | Paket | Zweck |
 | --- | --- |
 | Python ≥ 3.10, NumPy, SciPy | Referenzimplementierung, Numerik |
-| Nurbforge ≥ 0.6.0 (PhotonPower) | Laufzeitabhängigkeit ab V1a (Schnitte, Körper, STEP). Nicht auf PyPI und für 0.6.0 ohne Release-Wheels: Installation aus dem Tag `v0.6.0` (C++-Build, einige Minuten); die CI baut das Wheel einmal je Python-Version und cacht es |
+| Nurbforge ≥ 0.6.0 (PhotonPower) | Laufzeitabhängigkeit ab V1a (Schnitte, Körper, STEP). Nicht auf PyPI und für 0.6.0 ohne Release-Wheels: Installation aus dem Tag `v0.6.0` (C++-Build, einige Minuten); die CI baut das Wheel einmal je Python-Version und cacht es. Boolesche Differenz mit koplanaren Flächen liefert in 0.6.0 keinen geschlossenen Körper, Schnittmengen von STEP-Körpern sind langsam; V1b bestimmt Überlappungen deshalb auf dem Schreibraster (Spezifikation §3.11) |
 | pytest, ruff, mypy | Entwicklung (`requirements-dev.txt`) |
 | CMake, C++20-Compiler, CUDA ≥ 12.6 | ab dem C++/CUDA-Kern, wie BWPM |
 

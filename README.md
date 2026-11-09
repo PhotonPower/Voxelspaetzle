@@ -12,8 +12,9 @@ und Toleranzanalyse über die Prozessstreuung.
 (Fieldtracing) → Dosisfeld → Polymerisationsgrad → Entwicklung und Schrumpfung → Form, Brechzahl,
 Rauheit → Raytatouille, BWPM, RTT-Fusion.
 
-**Stand:** V0 (Spezifikation) abgeschlossen, V1a umgesetzt: Schichten, Konturen und Hatching aus
-einem Körper (Nurbforge) und die Schreibbahn im Format `voxelspaetzle-path`. Siehe
+**Stand:** V0 (Spezifikation) abgeschlossen, V1a und V1b umgesetzt: Schichten, Konturen und
+Hatching aus Körpern (Nurbforge), Schreibfelder, Schreibjobs und Mehrmaterial aus benannten
+STEP-Körpern, Schreibbahn im Format `voxelspaetzle-path`. Siehe
 [docs/roadmap.md](docs/roadmap.md).
 
 ## Installation
