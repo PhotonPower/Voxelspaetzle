@@ -204,11 +204,32 @@ auflösbare Gitterperiode (toulouse2021, P17) folgt aus dem Modell erst mit kali
   Wellenlänge, ist das ein Fehler; ausdrücklich zugelassen (`missing_kappa = "nan"`) wird κ dort
   NaN und die Wellenlänge vermerkt.
 
-### 3.8 Schrumpfung (V5, Schnittstelle)
+### 3.8 Entwicklung und Schrumpfung (V5a)
 
-Eigendehnung ε* = −s(α) I, Substrat eingespannt (`docs/vorschlaege/hpfem-elastizitaet.md`).
-Literaturpunkt: Wegener et al. kompensierten die axiale Schrumpfung von Woodpiles mit dem Faktor
-1,28 in z (fischer2013, Abschn. 6). Die Gleichungen legt V5 fest.
+- **Gleichungen:** lineare, isotrope Elastizität −∇·σ = 0, σ = C : (ε(u) − ε*) mit E, ν und der
+  Eigendehnung ε* = −s·α·I; s ist die Schrumpfung des vollständig polymerisierten Lacks, linear in
+  α (Annahme bis V4b bzw. Kalibrierung). E, ν und s nennen die bisherigen Quellen nicht; sie sind
+  Parameter (Kalibrierung V7). Literaturpunkt: Wegener et al. kompensierten die axiale Schrumpfung
+  von Woodpiles mit dem Faktor 1,28 in z (fischer2013, Abschn. 6).
+- **Übergangslöser (D4, präzisiert):** trilineare 8-Knoten-Hexaeder direkt auf den entwickelten
+  Voxeln (α ≥ α_dev), 2×2×2 Gauß-Punkte; Eigendehnung als Last ∫ Bᵀ C ε* dV; Lösung mit CG und
+  Jacobi-Vorkonditionierung (relative Toleranz 10⁻¹²). Gekrümmte Ränder werden als Treppe
+  abgebildet; der Fehler ist über Gitterverfeinerung zu beziffern. hp-FEM (hp-FEM#213) bleibt der
+  Weg für glatte Ränder.
+- **Lagerung:** `substrate` spannt alle Knoten entwickelter Voxel in der Ebene z = z_sub ein;
+  `free` hält die Starrkörperbewegungen durch eine 3-2-1-Lagerung um den Knoten nächst dem
+  Schwerpunkt fest (verträglich mit homogener Schrumpfung um diesen Knoten).
+- **Ausgabe:** Knotenverschiebungen (Format `voxelspaetzle-displacement`: Gitter wie §5.3,
+  `u_um` (nz+1, ny+1, nx+1, 3), `active`, `reference_um`, `source`), trilineare Auswertung an
+  beliebigen Punkten, verformte Höhenkarte z' = z + u_z (seitliche Verschiebung in erster Ordnung
+  vernachlässigt). Die Verschiebungen hängen nicht von E ab.
+- **Sollwerte (P7):** freier Körper mit homogener Eigendehnung ist spannungsfrei, u = −s·α(r − r₀)
+  exakt (Patch-Test, auch mit Treppenrand); gebundene dünne Platte: seitlich behinderte Dehnung,
+  in der Mitte ε_zz = −s(1 + ν)/(1 − ν) (eigene Herleitung aus σ_zz = 0 und ε_xx = ε_yy = 0).
+- **Zugang des Entwicklers (P16):** flüssiger Lack (α < α_dev) wird ausgewaschen, wenn ein über
+  Flächen verbundener Weg flüssiger Voxel aus dem Gitter führt; auf einem Substrat ist die
+  Unterseite geschlossen. Sonst bleibt er eingeschlossen. Mindestöffnungen und Entwicklungszeiten
+  sind nicht modelliert.
 
 ### 3.9 Schichten, Konturen und Hatching (V1a)
 
