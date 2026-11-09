@@ -334,6 +334,24 @@ Monte Carlo: n gestörte Bahnen aus einem Generator mit festem Seed, je Bahn ein
 Zahlen bleiben Platzhalter, bis Fokus, Schwelle und Streuungen kalibriert sind (V7, D2).
 Vorhalt und Optimierung (V8b) folgen; der Optimierer aus Raytatouille steht erst mit v1 bereit.
 
+### 3.14 Vorhalt (V8b)
+
+- **Dosiskern der Segmente:** Für den Gauß-Kern ist die Dosis eines waagrechten Segments
+  geschlossen: k_p/v · (2/(π w₀²))² · exp(−4p²/w₀² − 4Δz²/w_z²) · (√π w₀/4)
+  [erf(2t/w₀) − erf(2(t − L)/w₀)] mit dem Abstand p senkrecht zum Segment, der Lage t längs des
+  Segments und dessen Länge L (eigene Herleitung); Punkte: k_p Δt g².
+- **Proximity-Korrektur:** Leistungen so, dass an allen Segmentmitten (Punkte: ihre Lage) die
+  Zieldosis ankommt. Linear in q = P², gelöst mit nichtnegativen kleinsten Quadraten; der Rest
+  wird gemeldet. Dichte Matrix, für Ausschnitte bis einige tausend Segmente; Enden der Segmente
+  sind nicht Teil der Bedingung.
+- **Inverses Problem:** Parameter x mit simulierter Kenngröße = Ziel (Regula falsi, Illinois),
+  innerhalb einer Klammer; z. B. Leistung für eine Ziel-Linienbreite oder Skalierungsfaktor der
+  Bahn für eine Zielhöhe nach der Schrumpfung (Vorwärtsmodell über §3.8).
+- **Skalierung der Bahn:** r' = c + f·(r − c) je Achse, auch Schichthöhen und Tischpositionen;
+  Literatur: axialer Vorhalt 1,28 (fischer2013, Abschn. 6).
+- Die Werte bleiben Platzhalter bis zur Kalibrierung (V7); der Optimierer aus Raytatouille folgt
+  mit v1.
+
 ## 4. Auflösungsgrößen für Tests
 
 Aus fischer2013 (Gleichungsnummern aus dem Volltext); λ Vakuumwellenlänge, n Brechzahl des
