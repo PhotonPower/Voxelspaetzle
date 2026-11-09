@@ -45,7 +45,7 @@ class Grid:
 @dataclass
 class VolumeField:
     grid: Grid
-    data: dict[str, NDArray[Any]]
+    data: dict[str, Any]
     focus: dict[str, Any] = field(default_factory=dict)
     source: dict[str, Any] = field(default_factory=dict)
 
