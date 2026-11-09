@@ -54,10 +54,16 @@ legt §3.9 fest.
 ### 3.2 Schreibfokus
 
 Der Fokus ist das vektorielle Feld E(r) einer aplanatischen Linse nach Debye bzw. Richards–Wolf
-(Fieldtracing `debye_focus`, `richards_wolf`; fischer2013, Abschn. 3, mit Verweis auf eine
-vektorielle Debye-Rechnung). Parameter: λ_w, NA, Brechzahl n_w des Fokusmediums, Polarisation
-(linear oder zirkular; Referenz in fischer2013: zirkular), Ausleuchtung der Pupille (homogen als
-Standard, Gauß mit Füllfaktor als Option).
+(fischer2013, Abschn. 3, mit Verweis auf eine vektorielle Debye-Rechnung). Parameter: λ_w, NA,
+Brechzahl n_w des Fokusmediums, Polarisation (linear oder zirkular; Referenz in fischer2013:
+zirkular), Ausleuchtung der Pupille (homogen als Standard, Gauß mit Füllfaktor als Option).
+
+**Quelle des Fokus (D8):** Das vektorielle Feld kommt aus Raytatouille ab v1, nach dem Port von
+Field Tracing nach C++; die Python-Prototypen in Fieldtracing werden dort ersetzt und sind keine
+Abhängigkeit. Bis dahin rechnet Voxelspaetzle mit dem **Gauß-Kern** aus §3.6,
+g(ρ, z) = (2/(π w₀²)) exp(−2ρ²/w₀²) exp(−2z²/w_z²), mit w₀ und w_z als Prozessparametern. Die
+Dosisrechnung (§3.4) nimmt den Fokus nur als Kern g auf dem Gitter entgegen, sodass der Tausch
+keine andere Stelle berührt.
 
 - **Maßgebliche Größe ist |E|², nicht die Intensität des Poynting-Vektors.** Photoinitiatoren
   werden über elektrische Dipolübergänge angeregt; |E|² ist die Verteilung für Einphotonen-,
@@ -67,8 +73,8 @@ Standard, Gauß mit Füllfaktor als Option).
   Sinne von |E|² ist.
 - **Dip-in:** Lack und Immersion sind dasselbe Medium; der Fokus wird im homogenen Medium mit n_w
   gerechnet. **Öl-Modus** (Fokus durch Deckglas in den Lack, Tiefenaberration) ist nicht Teil von
-  V2; er braucht eine Erweiterung von Fieldtracing (`docs/abhaengigkeiten.md`) und wird erst mit
-  D1 entschieden.
+  V2; er braucht den Fokus durch eine Grenzfläche aus Raytatouille (D8) und wird erst mit D1
+  entschieden.
 - Absorption innerhalb des Fokusvolumens wird vernachlässigt: über 1 µm Fokuslänge schwächt
   IP-Black (κ_w = 6,2·10⁻⁵) um etwa 10⁻³ relativ ab.
 
@@ -82,13 +88,22 @@ bis zum Fokus (Raytatouille ADR 0021, Punkt 5; `docs/konventionen.md`). L hängt
 
 | Modus | L |
 | --- | --- |
-| Dip-in mit „wrapped objective“ | konstant, Prozessparameter (Referenz A: ≈ Arbeitsabstand; schmid2023) |
-| Dip-in ohne Hülle | Abstand Frontlinse–Fokus, abhängig von der Schreibhöhe |
-| Öl (später) | Lackdicke über dem Fokus |
+| Dip-in mit „wrapped objective“ | konstant, Prozessparameter `resist_path_um` (Referenz A: ≈ Arbeitsabstand; schmid2023) |
+| Dip-in ohne Hülle | Prozessparameter `resist_path_um`; wie L von der Schreibhöhe abhängt, ist mit D1 zu klären |
+| Öl (später, D8) | Lackdicke über dem Fokus |
 
-Für nicht absorbierende Lacke (κ_w = 0) ist P_f = P·T_obj. Gemittelt über den Lichtkegel wird
-nicht; der Fehler (Randstrahlen laufen länger) ist O(NA²/n²) relativ zu L und wird im Testfall P12
-gegen die Kegelmittelung beziffert.
+Fehlt `resist_path_um` bei einem absorbierenden Lack, ist das ein Fehler. Für nicht absorbierende
+Lacke (κ_w = 0) ist P_f = P·T_obj. Weg durch bereits belichteten Lack (anderes κ) behandelt V4.
+
+**Kegelmittelung** (Testfall P12): Randstrahlen laufen länger. Mit einer ebenen Grenze im
+Abstand L, homogen ausgeleuchteter Pupille (Gewicht sin θ cos θ dθ) und sin θ_m = NA/n_w ist die
+mittlere Transmission
+
+T_Kegel = ∫₀^θm exp(−a/cos θ) sin θ cos θ dθ / (sin²θ_m/2) = 2 [E₃(a) − E₃(a u_m)/u_m²] / sin²θ_m
+
+mit a = 4πκ_w L/λ_w, u_m = 1/cos θ_m und dem Exponentialintegral E₃ (Substitution u = 1/cos θ;
+eigene Herleitung). In erster Ordnung T_Kegel ≈ 1 − a·2/(1 + cos θ_m) statt 1 − a auf der Achse.
+Der Standard ist die axiale Transmission; die Kegelmittelung ist als Option verfügbar.
 
 ### 3.4 Belichtungsdosis
 
@@ -106,6 +121,13 @@ D(r) = k_p · ∫ P_f(t)² g(r − r_f(t))² dt
   nur D/D_th. Den Formfaktor der Pulse belegt die Spezifikation erst mit einer Quelle (offen,
   §6). Das Modell rechnet deshalb mit Pulsenergie bzw. mittlerer Leistung, nicht mit
   Spitzenintensitäten in TW/cm² (`docs/materialdaten.md`).
+- **Numerik** (V2c): Die Bahn wird in Stützpunkte mit Abstand ds ≤ min(Gitterschritt, w)/4
+  zerlegt; jeder trägt das Gewicht k_p P_f² ds/v (Punkte: k_p P_f² Δt) und wird trilinear auf die
+  acht Nachbarknoten des Gitters verteilt. Die Dosis ist die Faltung dieses Quellgitters mit g²,
+  auf dem Gitter abgetastet und bei 4 Halbachsen abgeschnitten (Rest < e⁻⁶⁴), per FFT. Das setzt
+  einen ortsfesten Fokus voraus (Dip-in, homogenes Medium); ein ortsabhängiger Fokus (Öl-Modus)
+  braucht später eine andere Summation. Ohne kalibrierte Schwelle wird k_p = 1 gesetzt und die
+  Dosis absolut gespeichert (§5.3).
 
 ### 3.5 Akkumulation
 
@@ -294,10 +316,12 @@ Hatching lässt sich nicht verwenden (Fehler statt erfundener Zahl).
 
 ### 5.3 Volumenfelder (`voxelspaetzle-field`)
 
-Reguläres Gitter: `origin_um` (3), `step_um` (3), `shape` (3, Reihenfolge z, y, x), dazu je Feld
-ein Array: `dose_rel` (D/D_th), `alpha`, `material` (uint8, Index in `materials`),
-`materials` (Namen), optional `n` und `kappa` je Wellenlänge (`wavelengths_um`). Gitterwerte gelten
-in den Zellmittelpunkten.
+Reguläres Gitter: `origin_um` (3, untere Ecke), `step_um` (3, Reihenfolge x, y, z), `shape` (3,
+Reihenfolge z, y, x), dazu je Feld ein Array der Form `shape`: `dose_rel` (D/D_th) oder, solange
+keine Schwelle kalibriert ist, `dose_mW2s_per_um4` (k_p = 1), `alpha`, `material` (uint8, Index in
+`materials`), `materials` (Namen), optional `n` und `kappa` je Wellenlänge (`wavelengths_um`).
+Gitterwerte gelten in den Zellmittelpunkten origin + (Index + ½)·step. Dazu `focus` (Art und
+Parameter des Kerns) und `source` (Herkunft).
 
 ### 5.4 Ausgaben an das Framework
 
