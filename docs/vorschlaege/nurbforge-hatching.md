@@ -1,7 +1,7 @@
 # Vorschlag für Nurbforge: Hatching aus Schnittschleifen
 
 > Entwurf aus Voxelspaetzle (V1, D3, D6); in Nurbforge nur lesend. Stand Nurbforge 0.6.0
-> (`ee0edd8`, gelesen 2026-11-09). Zur Entscheidung durch den Maintainer.
+> (`ee0edd8`, gelesen 2026-11-09). Angelegt als PhotonPower/Nurbforge#44 (2026-11-09).
 
 ## Kontext
 

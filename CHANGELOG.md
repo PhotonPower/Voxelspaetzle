@@ -18,12 +18,14 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
   Hatchrichtung je Bereich, Nachbearbeitung ohne 2PP; D1 als Prozessbibliothek.
 - Stand der Framework-Programme in `docs/abhaengigkeiten.md` (gelesen 2026-11-09), FourierGrating
   als neue Abhängigkeit; Erweiterungsvorschläge für RTT-Fusion (Datenports), Nurbforge (Hatching)
-  und Raytatouille (gechirpte Gitterphase, Priorität der Flächentypen); Testfall P22.
+  und Raytatouille (gechirpte Gitterphase, Priorität der Flächentypen), dort als Issues angelegt
+  (RTT-Fusion#20, Nurbforge#44, Raytatouille#363 und #316, hp-FEM#213); Testfall P22.
 
 ### Geändert
 
 - Entscheidungen D3–D6 als freigegeben eingetragen.
 - Konvention „Brechzahl“ um Absorption (ñ = n + iκ wie Raytatouille, BWPM und RTT-Fusion) und
-  Material je Volumen (Lacke und Füllmaterialien, benannte STEP-Körper) erweitert (Vorschlag D7).
+  Material je Volumen (Lacke und Füllmaterialien, benannte STEP-Körper) erweitert (D7, freigegeben
+  2026-11-09).
 - V2 und V6 an die vorhandenen Eingänge der Programme angepasst.
 - Titel von schmid2019 ergänzt.

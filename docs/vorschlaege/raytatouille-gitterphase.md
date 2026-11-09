@@ -1,7 +1,7 @@
 # Vorschlag für Raytatouille: gechirpte Gitterphase und Flächen für gedruckte Optik
 
 > Entwurf aus Voxelspaetzle (V6, V8); in Raytatouille nur lesend. Stand Raytatouille 0.9.0
-> (`9002b71`, gelesen 2026-11-09). Zur Entscheidung durch den Maintainer.
+> (`9002b71`, gelesen 2026-11-09). Angelegt als PhotonPower/Raytatouille#363 (Flächentypen: Kommentar in Raytatouille#316) (2026-11-09).
 
 ## Kontext
 

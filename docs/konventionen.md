@@ -8,7 +8,7 @@ Verbindlich; dieselben wie Raytatouille, Fieldtracing, BWPM und RTT-Fusion.
 - **Koordinaten:** rechtshändig; Substratoberfläche bei z = 0, Teil bei z > 0 (Schreibrichtung
   von unten nach oben, wie üblich); Druckerkoordinaten werden über eine Pose auf diese abgebildet.
 - **Felder** (Schreibfokus): ∝ exp(i(k·r − ωt)), wie Fieldtracing.
-- **Brechzahl und Absorption** (D7, Vorschlag, #8): komplexe Brechzahl ñ = n + iκ mit κ ≥ 0
+- **Brechzahl und Absorption** (D7, #8): komplexe Brechzahl ñ = n + iκ mit κ ≥ 0
   (Dämpfung bei exp(i(k·r − ωt))), wie Raytatouille (`docs/architecture.md`, „Konventionen“;
   ADR 0021), BWPM und RTT-Fusion. Materialdaten im Sinne von `rtt-material`: Dispersionsformel
   (Sellmeier, Cauchy, …) für n und tabellierte n/k-Werte, getrennt für die Gebrauchswellenlänge

@@ -1,7 +1,7 @@
 # Vorschlag für RTT-Fusion: Datenports für gedruckte Teile
 
 > Entwurf aus Voxelspaetzle (V6, V10); in RTT-Fusion nur lesend. Stand RTT-Fusion `51bba21`
-> (gelesen 2026-11-09). Zur Entscheidung durch den Maintainer.
+> (gelesen 2026-11-09). Angelegt als PhotonPower/RTT-Fusion#20 (2026-11-09).
 
 ## Kontext
 
