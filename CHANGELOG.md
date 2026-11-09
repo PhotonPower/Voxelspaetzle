@@ -6,6 +6,10 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V5a: Schrumpfung mit linearer Elastizität auf Voxel-Hexaedern, Lagerung am Substrat oder frei,
+  Verschiebungsfeld `voxelspaetzle-displacement`, verformte Höhenkarte (`voxelspaetzle.mechanics`);
+  eingeschlossener flüssiger Lack (`voxelspaetzle.development`); Spezifikation §3.8; D4
+  präzisiert; Testfälle P7 (analytisch), P16.
 - V4a: Polymerisationsgrad mit dem Grenzfall Schwellenmodell (`voxelspaetzle.polymerization`),
   Materialdaten `voxelspaetzle-material` mit IP-Black (Sellmeier, Δn der flüssigen Phase,
   Absorption bei 780 nm; `voxelspaetzle.materials`), optisches Feld n und κ je Wellenlänge vor
