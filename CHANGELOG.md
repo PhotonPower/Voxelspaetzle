@@ -6,6 +6,9 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V8b: Dosiskern der Segmente in geschlossener Form, Proximity-Korrektur der Leistungen
+  (nichtnegative kleinste Quadrate), inverses Problem (Illinois) und Skalierung der Bahn
+  (`voxelspaetzle.precompensation`); Spezifikation §3.14; Testfälle P29, P30.
 - V8a: Toleranzanalyse mit Leistungsrauschen, Justierfehlern zwischen Jobs und
   Positionierfehlern je Schreibfeld, Monte Carlo mit festem Seed (`voxelspaetzle.tolerance`);
   Spezifikation §3.13; Testfall P28.
