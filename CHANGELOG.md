@@ -45,6 +45,7 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Geändert
 
+- V1d (Import der Maschinendatei) zurückgestellt, bis Beispieldateien und Formatbeschreibung vorliegen.
 - `WriteParameters.contour` ersetzt durch `contour_count` (0 = keine Kontur) mit Offsets.
 - Einheit der Dosis in den Konventionen korrigiert: mW²·s/µm⁴ statt mW²·s/µm³.
 - Entscheidungen D3–D6 als freigegeben eingetragen.
