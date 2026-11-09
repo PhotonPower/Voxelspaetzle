@@ -317,6 +317,23 @@ Ein Schreibfeld ist der Bereich, den der Drucker ohne Bewegung des Verfahrtischs
   Umgebung, Normalen nach außen, in µm; das Format speichert float32 (relative Genauigkeit ≈ 10⁻⁷).
 - **Transmission längs z:** T(x, y) = exp(−Σ 4πκ Δz/λ) durch das optische Feld (§3.3).
 
+### 3.13 Toleranzanalyse (V8a)
+
+Störungen wirken auf eine Kopie der Schreibbahn, in der angegebenen Reihenfolge:
+
+- **Leistungsrauschen:** P × (1 + σ·ξ), ξ ~ N(0, 1), bei 0 abgeschnitten; ein Faktor je Segment,
+  je Schicht oder je Job.
+- **Justierfehler zwischen Schreibjobs:** Job 0 ist die Referenz; jeder spätere Job wird starr um
+  einen Versatz mit Standardabweichungen (σx, σy, σz) verschoben (Justiermarken bleiben Daten des
+  Jobs).
+- **Positionierfehler des Tischs:** alle Segmente eines Schreibfelds werden um denselben Versatz
+  (δx, δy) verschoben, unabhängig je Feld und Job.
+
+Monte Carlo: n gestörte Bahnen aus einem Generator mit festem Seed, je Bahn eine Kenngröße
+(z. B. Linienbreite, Effizienz); Seed, Störungen und gezogene Werte sind reproduzierbar. Die
+Zahlen bleiben Platzhalter, bis Fokus, Schwelle und Streuungen kalibriert sind (V7, D2).
+Vorhalt und Optimierung (V8b) folgen; der Optimierer aus Raytatouille steht erst mit v1 bereit.
+
 ## 4. Auflösungsgrößen für Tests
 
 Aus fischer2013 (Gleichungsnummern aus dem Volltext); λ Vakuumwellenlänge, n Brechzahl des
