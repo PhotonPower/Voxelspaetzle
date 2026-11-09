@@ -15,6 +15,7 @@ FORMAT = "voxelspaetzle-path"
 KIND_CONTOUR = 0
 KIND_HATCH = 1
 KIND_POINT = 2
+SINGLE_FIELD: dict[str, Any] = {"index": [0, 0, 0], "center_um": [0.0, 0.0, 0.0]}
 
 
 @dataclass
@@ -28,6 +29,7 @@ class Segments:
     kind: NDArray[np.int8]
     dwell_s: NDArray[np.float64]
     region: NDArray[np.int32]
+    field: NDArray[np.int32]
 
     def __post_init__(self) -> None:
         self.start_um = np.asarray(self.start_um, dtype=np.float64).reshape(-1, 3)
@@ -38,6 +40,7 @@ class Segments:
         self.kind = np.asarray(self.kind, dtype=np.int8).reshape(n)
         self.dwell_s = np.asarray(self.dwell_s, dtype=np.float64).reshape(n)
         self.region = np.asarray(self.region, dtype=np.int32).reshape(n)
+        self.field = np.asarray(self.field, dtype=np.int32).reshape(n)
         if self.end_um.shape != (n, 3):
             raise ValueError("start_um and end_um must have the same shape (N, 3)")
         moving = self.kind != KIND_POINT
@@ -62,6 +65,7 @@ class Segments:
                 z.astype(np.int8),
                 z,
                 z.astype(np.int32),
+                z.astype(np.int32),
             )
         return cls(*(np.concatenate([getattr(p, f) for p in parts]) for f in _SEG_FIELDS))
 
@@ -81,6 +85,7 @@ _SEG_FIELDS = (
     "kind",
     "dwell_s",
     "region",
+    "field",
 )
 
 
@@ -93,11 +98,18 @@ class Layer:
 
 @dataclass
 class Job:
-    """One writing job in one resist; ``markers`` are alignment marks for the next job."""
+    """One writing job in one resist (§3.10, §3.11).
+
+    ``markers`` are alignment marks for the next job. ``fields`` is the field table in writing
+    order (``index`` (i, j, k), ``center_um`` = stage position); ``Segments.field`` indexes it.
+    ``field_size_um`` is (s_xy, s_xy, s_z), or ``None`` without a field grid.
+    """
 
     resist: str
     layers: list[Layer] = field(default_factory=list)
     markers: list[dict[str, Any]] = field(default_factory=list)
+    fields: list[dict[str, Any]] = field(default_factory=lambda: [dict(SINGLE_FIELD)])
+    field_size_um: list[float] | None = None
 
 
 @dataclass
@@ -118,6 +130,8 @@ class WritePath:
                 {
                     "resist": j.resist,
                     "markers": j.markers,
+                    "fields": j.fields,
+                    "field_size_um": j.field_size_um,
                     "layers": [
                         {
                             "z_um": ly.z_um,
@@ -139,6 +153,8 @@ class WritePath:
             Job(
                 resist=j["resist"],
                 markers=j["markers"],
+                fields=j["fields"],
+                field_size_um=j["field_size_um"],
                 layers=[
                     Layer(
                         float(ly["z_um"]),

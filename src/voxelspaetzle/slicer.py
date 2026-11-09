@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import math
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -12,8 +13,9 @@ import nurbforge as nf
 from numpy.typing import NDArray
 
 import voxelspaetzle
+from voxelspaetzle.fields import FieldGrid, assign_fields
 from voxelspaetzle.geometry import body_z_range, section_loops, slice_heights
-from voxelspaetzle.hatching import hatch_loops
+from voxelspaetzle.hatching import hatch_loops, inside_loops
 from voxelspaetzle.path import KIND_CONTOUR, KIND_HATCH, Job, Layer, Segments, WritePath
 
 
@@ -55,6 +57,7 @@ def _segments(xy: NDArray[np.float64], z: float, kind: int, p: WriteParameters) 
         kind=np.full(n, kind, dtype=np.int8),
         dwell_s=np.zeros(n),
         region=np.zeros(n, dtype=np.int32),
+        field=np.zeros(n, dtype=np.int32),
     )
 
 
@@ -70,31 +73,53 @@ def slice_shell(
     resist: str,
     process: str = "",
     z_range_um: tuple[float, float] | None = None,
+    fields: FieldGrid | None = None,
+    exclude: Sequence[Any] = (),
 ) -> WritePath:
-    """Write path of one job for a closed shell (µm, part frame = printer frame)."""
+    """Write path of one job for a closed shell (µm, part frame = printer frame).
+
+    ``fields`` splits the path into writing fields (§3.10). ``exclude`` are bodies written by
+    earlier jobs (§3.11, overlap rule ``priority``): their sections are removed from the
+    hatching on the same grid, and contour pieces inside them are dropped.
+    """
     z_min, z_max, critical = body_z_range(shell)
     if z_range_um is not None:
         z_min, z_max = z_range_um
-    layers = []
-    for k, z in enumerate(slice_heights(z_min, z_max, params.slicing_um, critical)):
+    for other in exclude:
+        critical += body_z_range(other)[2]
+    heights = slice_heights(z_min, z_max, params.slicing_um, critical)
+    parts_per_layer: list[Segments] = []
+    angles: list[float] = []
+    for k, z in enumerate(heights):
         loops = section_loops(shell, float(z), params.chord_tol_um)
+        cut = [
+            lp for other in exclude for lp in section_loops(other, float(z), params.chord_tol_um)
+        ]
         angle = (params.hatch_angle_rad + k * params.hatch_angle_step_rad) % math.pi
         parts = []
         if params.contour:
             for lp in loops:
-                parts.append(
-                    _segments(np.stack([lp, np.roll(lp, -1, axis=0)], 1), z, KIND_CONTOUR, params)
-                )
-        hatch = hatch_loops(loops, params.hatching_um, angle, serpentine=params.serpentine)
+                edges = np.stack([lp, np.roll(lp, -1, axis=0)], 1)
+                if cut:
+                    edges = edges[~inside_loops(edges.mean(axis=1), cut)]
+                parts.append(_segments(edges, z, KIND_CONTOUR, params))
+        hatch = hatch_loops(
+            loops, params.hatching_um, angle, serpentine=params.serpentine, exclude=cut
+        )
         parts.append(_segments(hatch, z, KIND_HATCH, params))
-        layers.append(Layer(float(z), float(angle), Segments.concatenate(parts)))
+        parts_per_layer.append(Segments.concatenate(parts))
+        angles.append(float(angle))
+    split, table = assign_fields(parts_per_layer, [float(z) for z in heights], fields)
+    layers = [Layer(float(z), a, sg) for z, a, sg in zip(heights, angles, split, strict=True)]
+    size = None if fields is None else [fields.size_xy_um, fields.size_xy_um, fields.size_z_um]
     source = {
         "slicer": "voxelspaetzle",
         "version": voxelspaetzle.__version__,
         "parameters": asdict(params),
         "input_sha256": input_hash(shell),
     }
-    return WritePath(process=process, jobs=[Job(resist=resist, layers=layers)], source=source)
+    job = Job(resist=resist, layers=layers, fields=table, field_size_um=size)
+    return WritePath(process=process, jobs=[job], source=source)
 
 
 def hatched_volume_um3(job: Job, params: WriteParameters) -> float:
