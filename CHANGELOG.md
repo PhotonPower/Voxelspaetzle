@@ -6,6 +6,14 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Hinzugefügt
 
+- V2b: Abschwächung bis zum Fokus mit Umrechnung κ ↔ α und Kegelmittelung
+  (`voxelspaetzle.attenuation`); Testfall P12.
+- V2c: Belichtungsdosis auf einem Volumengitter mit austauschbarem Fokus-Kern, Gauß-Kern bis D8,
+  separierbare FFT-Faltung (`voxelspaetzle.focus`, `voxelspaetzle.dose`); Volumenfelder im Format
+  `voxelspaetzle-field`; Fokusparameter in der Prozessbibliothek (`null` bis zur Kalibrierung);
+  Testfall P3.
+- Entscheidung D8: der vektorielle Fokus kommt aus Raytatouille v1; Spezifikation §3.2–§3.4, §5.1,
+  §5.3 entsprechend.
 - V1c: Offsets von Schnittschleifen mit Gehrung, Bereinigung kollabierter Kanten und Prüfung auf
   Schnitte (`voxelspaetzle.offset`); mehrere Konturen mit Offset und Hatch-Offset im Slicer;
   Prozessbibliothek `voxelspaetzle-process` mit den Referenzprozessen `schmid2023-A` und

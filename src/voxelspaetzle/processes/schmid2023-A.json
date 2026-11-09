@@ -20,6 +20,12 @@
     "mode": "dip_in_wrapped",
     "resist_path_um": 380.0,
     "polarization": null,
+    "focus": {
+      "kind": "gauss",
+      "w0_um": null,
+      "wz_um": null,
+      "notes": "Gaussian kernel until Raytatouille v1 provides the vector focus (D8); half-axes not given in the source, to be calibrated (V7)"
+    },
     "resists": {
       "IP-Black": {
         "threshold_dose": null,
