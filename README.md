@@ -12,7 +12,24 @@ und Toleranzanalyse über die Prozessstreuung.
 (Fieldtracing) → Dosisfeld → Polymerisationsgrad → Entwicklung und Schrumpfung → Form, Brechzahl,
 Rauheit → Raytatouille, BWPM, RTT-Fusion.
 
-**Stand:** Plan (Stufe V0). Siehe [docs/roadmap.md](docs/roadmap.md).
+**Stand:** V0 (Spezifikation) abgeschlossen, V1a umgesetzt: Schichten, Konturen und Hatching aus
+einem Körper (Nurbforge) und die Schreibbahn im Format `voxelspaetzle-path`. Siehe
+[docs/roadmap.md](docs/roadmap.md).
+
+## Installation
+
+```bash
+pip install "nurbforge @ git+https://github.com/PhotonPower/Nurbforge@v0.6.0"   # C++-Build
+pip install -e .
+```
+
+```python
+from voxelspaetzle.slicer import WriteParameters, slice_shell
+
+params = WriteParameters(slicing_um=0.2, hatching_um=0.5, power_mW=20.0, speed_um_per_s=5e4)
+path = slice_shell(shell, params, resist="IP-S", process="schmid2023-A")  # shell: nurbforge.Shell in µm
+path.save("lens.path.json")
+```
 
 ## Dokumentation
 
