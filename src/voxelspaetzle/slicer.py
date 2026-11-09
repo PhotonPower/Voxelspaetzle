@@ -16,6 +16,7 @@ import voxelspaetzle
 from voxelspaetzle.fields import FieldGrid, assign_fields
 from voxelspaetzle.geometry import body_z_range, section_loops, slice_heights
 from voxelspaetzle.hatching import hatch_loops, inside_loops
+from voxelspaetzle.offset import offset_loops
 from voxelspaetzle.path import KIND_CONTOUR, KIND_HATCH, Job, Layer, Segments, WritePath
 
 
@@ -24,8 +25,10 @@ class WriteParameters:
     """Writing parameters of one parameter set (µm, mW, µm/s, rad).
 
     ``hatch_angle_rad`` is the angle of layer 0, ``hatch_angle_step_rad`` is added per layer
-    (π/2 alternates the direction, schmid2023). ``contour`` writes each section loop once at
-    offset 0 before the hatching (inward offsets follow in V1c).
+    (π/2 alternates the direction, schmid2023). Contours (§3.9): ``contour_count`` loops per
+    section loop, the first at ``contour_offset_um`` into the solid (typically half the line
+    width), the next ones ``contour_spacing_um`` further in (default: ``hatching_um``). The
+    hatching fills the section moved in by ``hatch_offset_um``.
     """
 
     slicing_um: float
@@ -34,7 +37,10 @@ class WriteParameters:
     speed_um_per_s: float
     hatch_angle_rad: float = 0.0
     hatch_angle_step_rad: float = math.pi / 2
-    contour: bool = True
+    contour_count: int = 1
+    contour_offset_um: float = 0.0
+    contour_spacing_um: float | None = None
+    hatch_offset_um: float = 0.0
     serpentine: bool = True
     chord_tol_um: float = 1e-3
 
@@ -44,6 +50,12 @@ class WriteParameters:
                 raise ValueError(f"{name} must be positive")
         if self.power_mW < 0.0:
             raise ValueError("power_mW must not be negative")
+        if self.contour_count < 0:
+            raise ValueError("contour_count must not be negative")
+        if self.contour_offset_um < 0.0 or self.hatch_offset_um < 0.0:
+            raise ValueError("offsets must not be negative")
+        if self.contour_spacing_um is not None and not self.contour_spacing_um > 0.0:
+            raise ValueError("contour_spacing_um must be positive")
 
 
 def _segments(xy: NDArray[np.float64], z: float, kind: int, p: WriteParameters) -> Segments:
@@ -97,14 +109,19 @@ def slice_shell(
         ]
         angle = (params.hatch_angle_rad + k * params.hatch_angle_step_rad) % math.pi
         parts = []
-        if params.contour:
-            for lp in loops:
+        spacing = params.contour_spacing_um or params.hatching_um
+        for c in range(params.contour_count):
+            for lp in offset_loops(loops, params.contour_offset_um + c * spacing):
                 edges = np.stack([lp, np.roll(lp, -1, axis=0)], 1)
                 if cut:
                     edges = edges[~inside_loops(edges.mean(axis=1), cut)]
                 parts.append(_segments(edges, z, KIND_CONTOUR, params))
         hatch = hatch_loops(
-            loops, params.hatching_um, angle, serpentine=params.serpentine, exclude=cut
+            offset_loops(loops, params.hatch_offset_um),
+            params.hatching_um,
+            angle,
+            serpentine=params.serpentine,
+            exclude=cut,
         )
         parts.append(_segments(hatch, z, KIND_HATCH, params))
         parts_per_layer.append(Segments.concatenate(parts))
