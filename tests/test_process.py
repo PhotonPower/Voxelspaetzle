@@ -64,3 +64,14 @@ def test_roundtrip_and_body_spec(tmp_path: Path) -> None:
     spec = BodySpec.from_process("Hull", p, "IP-Dip", "spectrometer")
     assert spec.material == "IP-Dip" and spec.params == p.write_parameters("IP-Dip", "spectrometer")
     assert isinstance(q, Process)
+
+
+def test_focus_kernel_parameters_are_not_invented() -> None:
+    from voxelspaetzle.focus import GaussFocus
+
+    p = load_process("schmid2023-A")
+    assert p.focus["kind"] == "gauss"
+    with pytest.raises(ValueError, match="not given"):
+        p.focus_kernel()
+    p.focus.update(w0_um=0.4, wz_um=1.2)
+    assert p.focus_kernel() == GaussFocus(0.4, 1.2)
