@@ -53,9 +53,17 @@ mit Silbertinte gefüllt.
 Entwurf (Zemax, Glasmodell IP-Dip nach gissibl2017): Kollektor 50 × 50 µm², NA 0,42 am Spalt
 (90 µm Lackweg); Spalt 1,3 µm (erstes Beugungsminimum bei 550 nm passend zur NA); Gitter
 geblazet für 550 nm in der ersten Ordnung, Periode gechirpt 650–860 nm über 38 µm, 51 beleuchtete
-Linien; Hauptstrahlwinkel in der Bildebene ≤ 16°. Kleinere Perioden wurden vermieden, weil im
-Vollmaterial die Auflösung durch akkumulierte Dosis sinkt (Abb. S3, nicht gelesen); der Prozess
-schafft sonst Strukturen bis etwa 100 nm.
+Linien; Hauptstrahlwinkel in der Bildebene ≤ 16°. Der Prozess schafft sonst Strukturen bis etwa
+100 nm; im Vollmaterial sinkt die Auflösung aber durch akkumulierte Dosis (Haupttext).
+
+Gitter im Rasterelektronenmikroskop (Supplementary, Abb. S3): Ein Ausschnitt des Spektrometers
+wurde separat auf Glas gedruckt, das Gitter dabei zu höheren Frequenzen hin verlängert. Oberhalb
+der ersten genutzten Linie, also unter 650 nm Periode, ist die Topografie nicht mehr aufgelöst;
+deshalb die Untergrenze 650 nm. Die kleinste dort gedruckte Periode ist nicht angegeben – 650 nm
+ist also eine Schranke, kein gemessener Grenzwert. Auch im genutzten Bereich ist das
+Dreiecksprofil (Beispiel im Entwurf: 750 nm) nur angenähert; die Autoren nennen das endliche
+Voxelvolumen als Grund. Folge: Beugung in unerwünschte Ordnungen und geringere Effizienz; diese
+Ordnungen liegen räumlich getrennt vom Messsignal.
 
 Messungen (Vergleich in `docs/testfaelle.md`, P17–P20):
 
@@ -65,6 +73,14 @@ Messungen (Vergleich in `docs/testfaelle.md`, P17–P20):
 | Dispersion | 9,1 ± 1,1 nm/µm (532 nm), 7,2 ± 0,7 nm/µm (633 nm) | Raytracing: kleiner (mehr µm je nm); Ursache laut Autoren vermutlich Schrumpfung (Fokus näher am letzten Linsenblock) |
 | Linienbreite (FWHM) | 1,01 µm (532 nm), 2,48 µm (633 nm) | — |
 | Spektrale Auflösung | 9,2 ± 1,1 nm (532 nm), 17,8 ± 1,7 nm (633 nm) | WPM 12,5 ± 1,5 nm bzw. 14,5 ± 1,4 nm; Beugungsgrenze λ/N = 10,4 nm bzw. 12,4 nm |
+| Rauschen in Spektrenmessungen | Rauschfläche im Mittel 51 % der Signalfläche; gleicher Verlauf von Rot nach Blau in allen Einzelmessungen | — |
+
+Die Linienbreite des Monochromators liegt in der Größenordnung der Auflösung (Supplementary,
+Abb. S2); die Profile aus den Monochromatormessungen sind daher verbreitert, die Auflösung stammt
+nur aus den Lasermessungen. Das Halogenspektrum fällt zu beiden Enden ab, dort ist das
+Signal-Rausch-Verhältnis schlechter. Rauschauswertung: gefittete sinc²-Funktion von jeder Messung
+abziehen, negative Werte null setzen, nach Signalstärke gewichtet mitteln (Supplementary,
+Abschnitt 4).
 
 **Abgeleitet:** 1,34 µm⁻¹ · 38 µm = 51 Linien; λ/51 = 10,4 nm und 12,4 nm; Dispersion × Linienbreite
 = 9,2 nm und 17,9 nm; NA des Kollektors mit n ≈ 1,54 und 25 µm / 90 µm: 0,41; erstes
@@ -121,7 +137,9 @@ Nat. Commun. 7 (2016) 11763; Quelle noch nicht erfasst).
 
 Hochauflösender Lack für kleine Voxel (Referenzprozess B). Brechzahl: gissibl2017 (nur zitiert).
 Extinktion unter 0,1/mm im Infraroten bis 1600 nm (schmid2019, nach toulouse2021). Die Absorption
-im Sichtbaren prägt das gemessene Spaltspektrum (toulouse2021, Abb. S2, nicht gelesen).
+im Sichtbaren prägt laut Haupttext zusammen mit dem Monochromatorspektrum das gemessene
+Spaltspektrum; die Supplementary (Abb. S2) zeigt nur den Monochromator, quantitative Werte für
+IP-Dip fehlen (→ schmid2019).
 Oberflächenrauheit ≈ 100 nm (kirchner2017, nach toulouse2021) – für refraktive Flächen nachteilig;
 die Autoren führen die schlechtere Auflösung bei 633 nm darauf zurück.
 

@@ -13,7 +13,7 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 - Plan ergänzt um Absorption beim Schreiben und im Gebrauch, Mehrmaterialdruck, Hatchwinkel und
   Piezo-Einschwingzeit, Zugang des Entwicklers; Vorschlag für D1, neue Entscheidung D7.
 - Zweiter Referenzprozess toulouse2021 (IP-Dip, GT2, Mikrospektrometer mit Tintenspalt): Quellen,
-  Materialdaten IP-Dip und Silbertinte NPS-J, Testfälle P17–P20.
+  Materialdaten IP-Dip und Silbertinte NPS-J, Testfälle P17–P21 (mit Supplementary).
 - Plan ergänzt um Gitterauflösung im Vollmaterial, lackabhängige Rauheit, Schrumpfung im System,
   Hatchrichtung je Bereich, Nachbearbeitung ohne 2PP; D1 als Prozessbibliothek.
 
