@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from voxelspaetzle import envelope
+from voxelspaetzle.focus import GaussFocus
 from voxelspaetzle.slicer import WriteParameters
 
 FORMAT = "voxelspaetzle-process"
@@ -29,6 +30,7 @@ class Process:
     mode: str
     resist_path_um: float | None
     polarization: str | None
+    focus: dict[str, Any]
     resists: dict[str, dict[str, Any]]
     development: list[dict[str, Any]] = field(default_factory=list)
     postprocess: list[dict[str, Any]] = field(default_factory=list)
@@ -58,6 +60,15 @@ class Process:
             if key in s:
                 s[key.replace("_deg", "_rad")] = math.radians(s.pop(key))
         return WriteParameters(power_mW=float(power), **s)
+
+    def focus_kernel(self) -> GaussFocus:
+        """Focus kernel of the process (§3.2; Gaussian until D8)."""
+        if self.focus.get("kind") != "gauss":
+            raise ValueError(f"{self.name}: focus kind {self.focus.get('kind')!r} not supported")
+        w0, wz = self.focus.get("w0_um"), self.focus.get("wz_um")
+        if w0 is None or wz is None:
+            raise ValueError(f"{self.name}: focus half-axes w0_um, wz_um not given in the sources")
+        return GaussFocus(float(w0), float(wz))
 
     def to_dict(self) -> dict[str, Any]:
         return {k: getattr(self, k) for k in self.__dataclass_fields__}

@@ -292,6 +292,7 @@ Hatching lässt sich nicht verwenden (Fehler statt erfundener Zahl).
 | `mode` | `dip_in_wrapped`, `dip_in`, `oil` |
 | `resist_path_um` | L für §3.3 (bei `dip_in_wrapped`) |
 | `polarization` | `linear_x`, `circular_left`, `circular_right` |
+| `focus` | Fokus-Kern: `kind` (`gauss` bis D8), `w0_um`, `wz_um` (§3.2, §3.6; `null`, solange nicht kalibriert) |
 | `resists` | je Lack (Name verweist auf die Materialdaten): `parameter_sets` mit benannten Sätzen (`slicing_um`, `hatching_um`, `power_mW` oder `power_percent` bezogen auf `printer.power_100pct_mW`, `speed_um_per_s`, optional `hatch_angle_deg`, `hatch_angle_step_deg`, Kontur- und Hatch-Offsets, `notes`) und `threshold_dose` (D_th, sobald kalibriert) |
 | `development` | Schritte mit Medium und Dauer |
 | `postprocess` | erlaubte Nachbearbeitungen (z. B. Tinte NPS-J) |
