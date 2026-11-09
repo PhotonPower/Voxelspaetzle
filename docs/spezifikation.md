@@ -186,13 +186,23 @@ bei 30° Hatchwinkel (schmid2023, P15) haben mechanische oder Stage-Ursachen (V5
 auflösbare Gitterperiode (toulouse2021, P17) folgt aus dem Modell erst mit kalibrierten w₀ und D_th
 (V7). Proximity selbst ist über die lineare Akkumulation enthalten.
 
-### 3.7 Polymerisation (V4, Schnittstelle)
+### 3.7 Polymerisation und Brechzahl (V4a; Reaktionsmodell V4b)
 
-Der Polymerisationsgrad α(r) ∈ [0, 1] folgt aus der Dosisgeschichte. Grenzfall ohne Diffusion und
-mit sofortiger Reaktion: α = 1 für D ≥ D_th, sonst 0, also das Schwellenmodell (P6). Brechzahl
-und Absorption hängen von α ab: n(α), κ(α) zwischen flüssig (α = 0) und gesättigt (α = 1);
-Kalibrierpunkt IP-Black Δn ≈ 0,02 bei Sättigung (schmid2023). Die Reaktionsgleichungen legt V4
-fest.
+- **Polymerisationsgrad** α(r) ∈ [0, 1] als Feld aus der Dosisgeschichte, über ein austauschbares
+  Reaktionsmodell. V4a liefert den Grenzfall ohne Diffusion und mit sofortiger Reaktion: α = 1 für
+  D ≥ D_th, sonst 0, also das Schwellenmodell (P6). Reaktions-Diffusions-Modelle (V4b) brauchen
+  Quellen im Volltext (u. a. schmid2019) und folgen danach.
+- **Brechzahl und Absorption** aus den Materialdaten (§5.6): n der gesättigten Phase als
+  Sellmeier-Formel im gemessenen Bereich, die flüssige Phase als Abstand Δn, dazwischen **linear
+  in α** (Annahme, bis V4b oder Kalibrierdaten eine andere Abhängigkeit belegen). Absorption als α
+  in 1/mm bei den Wellenlängen, die die Quellen nennen, ausgegeben als κ = αλ/(4π). Wellenlängen
+  außerhalb des gemessenen Bereichs und nicht genannte Absorption werden abgelehnt, nicht
+  extrapoliert. Kalibrierpunkt IP-Black: Δn ≈ 0,02 bei Sättigung (schmid2023).
+- **Optisches Feld:** n und κ je Wellenlänge auf dem Gitter. Nach der Entwicklung ist Lack mit
+  α < α_dev (Schwelle des Entwicklers, Parameter, Standard 0,5) durch das Umgebungsmedium ersetzt
+  (Name, reelle Brechzahl, κ = 0); vor der Entwicklung ist überall Lack. Fehlt κ bei einer
+  Wellenlänge, ist das ein Fehler; ausdrücklich zugelassen (`missing_kappa = "nan"`) wird κ dort
+  NaN und die Wellenlänge vermerkt.
 
 ### 3.8 Schrumpfung (V5, Schnittstelle)
 
@@ -345,7 +355,8 @@ Reihenfolge z, y, x), dazu je Feld ein Array der Form `shape`: `dose_rel` (D/D_t
 keine Schwelle kalibriert ist, `dose_mW2s_per_um4` (k_p = 1), `alpha`, `material` (uint8, Index in
 `materials`), `materials` (Namen), optional `n` und `kappa` je Wellenlänge (`wavelengths_um`).
 Gitterwerte gelten in den Zellmittelpunkten origin + (Index + ½)·step. Dazu `focus` (Art und
-Parameter des Kerns) und `source` (Herkunft).
+Parameter des Kerns) und `source` (Herkunft). `n` und `kappa` haben die Form (nλ, z, y, x) mit
+`wavelengths_um`; `kappa_missing_um` nennt Wellenlängen ohne Absorptionsdaten (§3.7).
 
 ### 5.4 Ausgaben an das Framework
 
@@ -361,6 +372,14 @@ Parameter des Kerns) und `source` (Herkunft).
 `origin_um` (x, y der ersten Gitterstelle), `step_um` (x, y), `z_um` (ny, nx; NaN ohne
 Festkörper), `material_below`, `material_above`, `clipped` (Festkörper am oberen Gitterrand) und
 `source` (Schwelle und Herkunft). Empfänger: SpeckleBem (Import von Höhenkarten), Rauheitsspektren.
+
+### 5.6 Materialdaten (`voxelspaetzle-material`)
+
+Ein Lack je Datei, mitgeliefert unter `src/voxelspaetzle/materials/` (zuerst IP-Black):
+`index` (`model` = `sellmeier`, `state` = `cured`, `B`, `C_um2`, `range_um`, `source`),
+`liquid_offset` (`delta_n`, `source`, `notes`), `absorption` (Liste mit `wavelength_um`,
+`alpha_per_mm`, `states`, `source`, `notes`), `interpolation` (`linear_in_alpha`), `sources`,
+`notes`. Jeder Wert nennt seine Quelle; abgeleitete Werte stehen nur in `notes`.
 
 ## 6. Offene Punkte
 
