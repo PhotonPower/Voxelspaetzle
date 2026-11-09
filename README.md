@@ -17,7 +17,8 @@ Hatching aus Körpern (Nurbforge), Schreibfelder, Schreibjobs und Mehrmaterial a
 STEP-Körpern, Prozessbibliothek mit den Referenzprozessen, Schreibbahn im Format
 `voxelspaetzle-path`. Aus V2: Abschwächung im Lack und Belichtungsdosis auf einem Volumengitter
 mit Gauß-Kern; der vektorielle Fokus folgt mit Raytatouille v1 (D8). Aus V3: Schwellenmodell mit
-Linienbreiten, Festkörper, Höhenkarten und Rauheitsspektren. Siehe
+Linienbreiten, Festkörper, Höhenkarten und Rauheitsspektren. Aus V4a: Polymerisationsgrad,
+Materialdaten (IP-Black) und das optische Feld (n, κ) des gedruckten Teils. Siehe
 [docs/roadmap.md](docs/roadmap.md).
 
 ## Installation
