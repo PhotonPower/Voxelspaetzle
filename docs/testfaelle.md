@@ -20,3 +20,7 @@ Status: ✅ umgesetzt und grün, ◐ teilweise, ○ geplant.
 | P14 | Systemtest Blenden: Michelson-Kontrast ×4 (IP-S-Linse mit IP-Black-Blende), ×7 (Einschrittlinse IP-Black), Schärfentiefe ×3 (telezentrisch) | schmid2023, Messung | V10 | ○ |
 | P15 | Hatchwinkel zwischen Schichten: 90° glatt, parallel verformt, 30° Spirale (qualitativ) | schmid2023 | V3 | ○ |
 | P16 | eingeschlossene Volumina (Zugang des Entwicklers) | analytische Körper: Hohlkugel, Becher mit und ohne Entwicklungsloch | V5 | ○ |
+| P17 | kleinste auflösbare Gitterperiode im Vollmaterial (Proximity) | toulouse2021: 650 nm bei IP-Dip, Slicing 100 nm, Hatching 250 nm (Abb. S3); Strukturen sonst bis ≈ 100 nm | V2, V3 | ○ |
+| P18 | Dispersion des gedruckten Spektrometers gegen den Entwurf | toulouse2021: 9,1 ± 1,1 nm/µm (532 nm), 7,2 ± 0,7 nm/µm (633 nm), größer als im Raytracing; Ursache (Schrumpfung) im Modell bestätigen oder widerlegen | V5, V6 | ○ |
+| P19 | Auflösungsverlust durch Rauheit | toulouse2021: 17,8 ± 1,7 nm gemessen gegen 14,5 ± 1,4 nm (WPM) bei 633 nm; Rauheit IP-Dip ≈ 100 nm | V3, V6 | ○ |
+| P20 | Spalt aus Tinte im gedruckten Becken und Trennung der Beugungsordnungen | toulouse2021: Spaltbreite 1,3 µm (FWHM), 0. Ordnung räumlich getrennt von der 1.; Rauschen 5–20 % | V6, V10 | ○ |

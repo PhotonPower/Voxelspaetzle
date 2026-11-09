@@ -1,10 +1,10 @@
 # Materialdaten (Literatur)
 
-> Literaturwerte bis zu eigenen Messungen (D2). Jede Angabe mit Quelle (`docs/quellen.md`).
+> Literaturwerte bis zu eigenen Messungen (D2); Referenzprozesse zu D1. Jede Angabe mit Quelle (`docs/quellen.md`).
 > **Abgeleitet** markierte Werte stehen nicht in der Quelle, sondern sind daraus berechnet; sie
 > sind keine Sollwerte für Tests, solange der Maintainer sie nicht freigibt.
 
-## Referenzprozess (schmid2023)
+## Referenzprozess A (schmid2023)
 
 | Größe | Wert |
 | --- | --- |
@@ -18,7 +18,8 @@
 
 Intensitätsangaben im Paper: 3,7 TW/cm² (100 %), 2,6 TW/cm² (70 %). Pulsdauer und Fleckgröße
 sind nicht angegeben. **Abgeleitet:** mit 100 fs und einem Fleckdurchmesser λ/(2NA) ergeben sich
-3,9 TW/cm² – vermutlich die Annahmen der Autoren. Das Modell rechnet mit Pulsenergie bzw. Leistung,
+3,9 TW/cm² – vermutlich die Annahmen der Autoren (toulouse2021 nennt für die GT2 etwa 100 fs an
+der Quelle). Das Modell rechnet mit Pulsenergie bzw. Leistung,
 nicht mit diesen Intensitäten.
 
 ### Schreibparameter
@@ -33,6 +34,41 @@ nicht mit diesen Intensitäten.
 Schreibstrategie für die IP-Black-Linse: Hatchwinkel 90° zwischen den Schichten am besten;
 parallele Schichten führen zu Verformungen, 30° zu einer kleinen Spiralstruktur auf der Linse.
 Piezo-Einschwingzeit von 2 s oder 5 s verringert die Verformungen.
+
+## Referenzprozess B (toulouse2021)
+
+Mikrospektrometer (490–690 nm) in 100 × 100 × 300 µm³, in einem Schritt gedruckt; Spalt danach
+mit Silbertinte gefüllt.
+
+| Größe | Wert |
+| --- | --- |
+| Drucker | Nanoscribe Photonic Professional GT2, Dip-in; Objektiv nicht angegeben |
+| Laser | Faserlaser 780 nm, spezifiziert 120 mW, ≈ 100 fs an der Quelle, ≈ 80 MHz |
+| Lack | IP-Dip auf ITO-beschichtetem Glas |
+| Schreibparameter | Slicing 100 nm, Hatching 250 nm, Hatchrichtung strikt entlang der Gitterlinien (y), 7,5 mW, 15 mm/s; Druckzeit knapp 2 h |
+| Bauhöhe | < 300 µm, damit im Hub des Piezo-z-Tischs und im Arbeitsabstand (kein Stitching); Bildebene = Glasoberfläche |
+| Entwicklung | PGMEA 8 min, Isopropanol 2 min, Trocknen mit N₂ |
+| Nachbearbeitung | Silbertinte NPS-J per Super-Fine-Inkjet (SIJ-S030) in das mitgedruckte Tintenbecken um den Spalt; Nadel < 10 µm durch einen 25-µm-Spalt neben der Kollektorlinse |
+
+Entwurf (Zemax, Glasmodell IP-Dip nach gissibl2017): Kollektor 50 × 50 µm², NA 0,42 am Spalt
+(90 µm Lackweg); Spalt 1,3 µm (erstes Beugungsminimum bei 550 nm passend zur NA); Gitter
+geblazet für 550 nm in der ersten Ordnung, Periode gechirpt 650–860 nm über 38 µm, 51 beleuchtete
+Linien; Hauptstrahlwinkel in der Bildebene ≤ 16°. Kleinere Perioden wurden vermieden, weil im
+Vollmaterial die Auflösung durch akkumulierte Dosis sinkt (Abb. S3, nicht gelesen); der Prozess
+schafft sonst Strukturen bis etwa 100 nm.
+
+Messungen (Vergleich in `docs/testfaelle.md`, P17–P20):
+
+| Größe | Messung | Simulation bzw. Grenze |
+| --- | --- | --- |
+| Spaltbreite (FWHM) | 1,3 µm; Rauschen im Mittel 5 % ± 3 %, maximal 15 % | Entwurf 1,3 µm |
+| Dispersion | 9,1 ± 1,1 nm/µm (532 nm), 7,2 ± 0,7 nm/µm (633 nm) | Raytracing: kleiner (mehr µm je nm); Ursache laut Autoren vermutlich Schrumpfung (Fokus näher am letzten Linsenblock) |
+| Linienbreite (FWHM) | 1,01 µm (532 nm), 2,48 µm (633 nm) | — |
+| Spektrale Auflösung | 9,2 ± 1,1 nm (532 nm), 17,8 ± 1,7 nm (633 nm) | WPM 12,5 ± 1,5 nm bzw. 14,5 ± 1,4 nm; Beugungsgrenze λ/N = 10,4 nm bzw. 12,4 nm |
+
+**Abgeleitet:** 1,34 µm⁻¹ · 38 µm = 51 Linien; λ/51 = 10,4 nm und 12,4 nm; Dispersion × Linienbreite
+= 9,2 nm und 17,9 nm; NA des Kollektors mit n ≈ 1,54 und 25 µm / 90 µm: 0,41; erstes
+Spaltminimum λ/b = 0,55/1,3 = 0,42. Alles konsistent mit dem Paper.
 
 ## IP-Black (Nanoscribe, Prototyp)
 
@@ -77,4 +113,21 @@ normiert (Beleuchtung NA ≤ 0,65, Abbildung NA 0,70).
 
 ## IP-S (Nanoscribe)
 
-Schreibparameter für Linsen siehe oben (schmid2023). Dispersion: schmid2019 (nur zitiert).
+Schreibparameter für Linsen siehe Referenzprozess A (schmid2023). Dispersion: schmid2019 (nur
+zitiert). Oberflächenrauheit unter 10 nm rms (laut toulouse2021, dort nach Gissibl et al.,
+Nat. Commun. 7 (2016) 11763; Quelle noch nicht erfasst).
+
+## IP-Dip (Nanoscribe)
+
+Hochauflösender Lack für kleine Voxel (Referenzprozess B). Brechzahl: gissibl2017 (nur zitiert).
+Extinktion unter 0,1/mm im Infraroten bis 1600 nm (schmid2019, nach toulouse2021). Die Absorption
+im Sichtbaren prägt das gemessene Spaltspektrum (toulouse2021, Abb. S2, nicht gelesen).
+Oberflächenrauheit ≈ 100 nm (kirchner2017, nach toulouse2021) – für refraktive Flächen nachteilig;
+die Autoren führen die schlechtere Auflösung bei 633 nm darauf zurück.
+
+## Silbertinte NPS-J (Harimatec, Nanopaste Series)
+
+Leitfähige Tinte mit 65 Massen-% Silber-Nanopartikeln (Partikelgröße 12 nm); Tropfen 0,1 fl bis
+10 pl aus einer Nadel unter 10 µm (Super-Fine-Inkjet bei Hochspannung). Füllt gedruckte Becken und
+Hohlräume als Absorber; Transmission geringer als IP-Black (schmid2023, toulouse2021). Absorption
+nicht quantifiziert; in der WPM-Rechnung von toulouse2021 als perfekter Absorber (E = 0) angenommen.
