@@ -13,16 +13,23 @@
 
 ## Programme des Maintainers (lesend; Erweiterungen als Vorschlag)
 
-| Programm | Nutzung in Voxelspaetzle |
-| --- | --- |
-| Nurbforge | CAD-Eingang (STEP, NURBS, B-Rep), Flächen aus optischen Formen (Asphären, Zernike, XY), Schnitte (Slicing), Punkt-im-Körper, Fit der gedruckten Form auf Zernike/XY, STEP-/STL-Export |
-| Raytatouille | Flächen eines Optikentwurfs als Eingang, gedruckte Form als Flächenmodell zurück, GRIN-Tracing (Entwurf X1) für das Brechzahlfeld, Optimierer für die Vorkompensation, Toleranzanalyse |
-| Fieldtracing | vektorieller Schreibfokus im Lack (hohe NA, Brechzahlsprung Immersion/Lack, Aberration mit der Tiefe) |
-| BWPM | Volumenrechnung gedruckter Teile mit Brechzahlfeld (Faserfacetten, Kappen) |
-| hp-FEM | Vorschlag: vektorielle H1-Elastizität für die Schrumpfung (lineare Elastizität mit Eigendehnung) |
-| SpeckleBem | Streulicht der Rauheit (Treppen, Hatching) |
-| RTT-Fusion | Adapter, Port-Typen, Datenports (Form, Brechzahlfeld, Rauheit) |
-| Scattuccino | gemeinsamer Pilot (gedruckte Sonde im Gewebe) |
+Stand gelesen am 2026-11-09 (Commit in Klammern). „Lücke“ heißt: fehlt für Voxelspaetzle; der
+Weg dazu steht in der letzten Spalte.
+
+| Programm | Nutzung in Voxelspaetzle | Vorhanden | Lücke und Weg |
+| --- | --- | --- | --- |
+| Nurbforge 0.6.0 (`ee0edd8`) | V1: CAD-Eingang, Schnitte (Slicing), Punkt-im-Körper; V6: Fit der gedruckten Form, STEP-/STL-Export | `section` (orientierte Schnittschleifen, exakt bei Extrusionen und Rotationen), `critical_heights`, `is_extrusion_band`, Punkt-im-Körper, Boolesche Operationen, STEP lesen/schreiben in µm mit benannten Körpern (`read_step_named`), Fits für Asphären, Zernike, XY-Polynome und Sag-Funktionen | Hatching (Füllung der Schleifen mit Bahnlinien) fehlt → in V1 selbst auf `section` aufbauen; Vorschlag [nurbforge-hatching.md](vorschlaege/nurbforge-hatching.md), Nurbforge#44 |
+| FourierGrating 0.18 (`a599bde`) | V6, V10: Beugungseffizienz gedruckter Gitter (P21, Spektrometer toulouse2021) | Differentialmethode und RCWA, 1D/2D, komplexe Materialien, CAD-Slicer STEP → Schichten über Nurbforge (ein benannter Körper je Material, µm), Python-Paket | – (STEP-Konvention in `docs/konventionen.md` übernommen) |
+| RTT-Fusion (`51bba21`) | V10: Ports und Adapter | Port-Typen G/S mit komplexem ñ, Adapter für FourierGrating, BWPM, hp-FEM, SpeckleBem, CliffordBem, BioOptoMD; Pilot K1 (Gitterspektrometer, Effizienztabelle im Raytracer), `DiffractionTable` in C++ | Datenport N nur als reelles n(z) in 1D → Vorschlag 3D-Datenport [rtt-fusion-datenport.md](vorschlaege/rtt-fusion-datenport.md), RTT-Fusion#20 |
+| Raytatouille 0.9.0 (`9002b71`) | V6: Flächenmodell; V8: Optimierer, Toleranzanalyse | ñ = n + iκ, n/k-Tabellen, Volumenabsorption (ADR 0021); Flächen: Ebene, Konik, gerade/ungerade Asphäre, Biconic, Toroid, Zylinder, Axicon, Q-con/Q-bfs; Phasenschichten lineares Gitter und radiales Polynom; Toleranzierung (M7), Ergebnisformat (ADR 0023) | Zernike-Sag, XY-Polynom, Grid-Sag geplant, nicht umgesetzt → Flächenfits erst danach; GRIN (X1) erst nach v1.0 → Brechzahlfeld vorerst nur über BWPM; gechirpte Polynom-Gitterphase fehlt → Vorschlag [raytatouille-gitterphase.md](vorschlaege/raytatouille-gitterphase.md), Raytatouille#363; Flächentypen in Raytatouille#316 (M8) |
+| BWPM (`ef2de94`) | V6: Volumenrechnung gedruckter Teile mit Brechzahl- und Absorptionsfeld; V10: Pilot Faserkappe (K6) | komplexes ñ, 2D/3D, C++/CUDA-Kern (B4), Pilot K6 (Kappe aus IP-Q) in 2D | Brechzahlen als diskrete Stufen je Pixel (E4), Aufwand ∝ M² → V6 muss ein kontinuierliches Feld quantisieren; Reflexe nur an z-senkrechten Flächen quantitativ (E5) |
+| Fieldtracing (`6da9983`) | V2: vektorieller Schreibfokus | `debye_focus` (FFT-Kette), `richards_wolf` (aplanatisch, x-polarisiert) im homogenen Medium – reicht für Dip-in, wo Lack und Immersion dasselbe Medium sind | Fokus durch eine Grenzfläche (Öl-Modus, Tiefenaberration) fehlt → Vorschlag erst, wenn D1 den Öl-Modus enthält |
+| hp-FEM 0.2.0 (`64413c5`) | V5: Schrumpfung (D4) | Maxwell-Löser, hp-Adaptivität, thermo-optische Kopplung (M9) | keine Elastizität → Vorschlag [hpfem-elastizitaet.md](vorschlaege/hpfem-elastizitaet.md), hp-FEM#213; bis dahin eigener P1-Tetraederlöser (D4) |
+| SpeckleBem (`4f04efe`) | V6: Streulicht der Rauheit (Treppen, Hatching) | rigorose SIE für rauhe Flächen (Gauß) und **importierte Höhenkarten**, STL; Zeitkonvention e^(+jωt) (Umrechnung im RTT-Fusion-Adapter) | keine Mehrschichtsubstrate; gedruckte Rauheit ist periodisch → V6 gibt Höhenkarten aus, nicht nur ein Spektrum |
+| Scattuccino (`e7cbddd`) | V10: gemeinsamer Pilot (gedruckte OCT-Sonde im Gewebephantom) | Datenport zu Voxelspaetzle und Pilot in S12 vorgesehen | – |
+
+Ohne Bezug zu Voxelspaetzle: BioOptoMD (Molekulardynamik an Sensoroberflächen), BindOptiX (bisher
+nur README), CliffordBem (Nano-Optik-BEM; bei Bedarf Querprobe zu SpeckleBem).
 
 ## Bewusst nicht verwendet
 
