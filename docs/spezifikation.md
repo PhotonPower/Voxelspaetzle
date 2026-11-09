@@ -48,7 +48,8 @@ Die Schreibbahn besteht aus Segmenten mit Start- und Endpunkt r_a, r_b (µm, Dru
 v. Die Fokuslage ist r_f(t) = r_a + v t ê mit ê = (r_b − r_a)/|r_b − r_a|. Punktbelichtungen sind
 Segmente der Länge 0 mit Belichtungszeit Δt. Beschleunigung und Einschwingen der Stage (Piezo,
 Galvo) sind nicht Teil von V1–V3; sie gehen als Fehlerquelle in V8 ein (schmid2023:
-Einschwingzeit). Format: §5.2.
+Einschwingzeit). Format: §5.2. Wie Schichten, Konturen und Hatching aus einem Körper entstehen,
+legt §3.9 fest.
 
 ### 3.2 Schreibfokus
 
@@ -153,6 +154,27 @@ fest.
 Eigendehnung ε* = −s(α) I, Substrat eingespannt (`docs/vorschlaege/hpfem-elastizitaet.md`).
 Literaturpunkt: Wegener et al. kompensierten die axiale Schrumpfung von Woodpiles mit dem Faktor
 1,28 in z (fischer2013, Abschn. 6). Die Gleichungen legt V5 fest.
+
+### 3.9 Schichten, Konturen und Hatching (V1a)
+
+- **Schichthöhen:** z_k = z_min + (k + ½)·Δz für alle k mit z_k < z_max (Mittelpunktregel; bei
+  glatten Körpern Volumenfehler O(Δz²)). Liegt z_k näher als ε = 10⁻⁶ µm an einer kritischen Höhe
+  des Körpers (Nurbforge `critical_heights`: Ecken, ebene Flächen senkrecht zu z, Höhenextrema),
+  wird es auf diese Höhe plus ε gelegt; geschnitten wird nie auf einer kritischen Höhe.
+- **Schnitt:** Nurbforge `section` liefert orientierte Schleifen (Körper links: außen gegen den
+  Uhrzeigersinn, Löcher im Uhrzeigersinn, von +z gesehen). Sie werden Kurve für Kurve abgetastet,
+  bis die Sehnenabweichung höchstens `chord_tol_um` beträgt (Standard 1 nm); die Orientierung wird
+  gegen die vorzeichenbehaftete Fläche aus Nurbforge geprüft.
+- **Konturen:** jede Schleife einmal mit Offset 0 vor dem Hatching. Offsets nach innen um die
+  halbe Linienbreite folgen in V1c.
+- **Hatching:** Linien in Richtung d = (cos a, sin a) auf einem festen Gitter c_j = phase + j·h
+  längs der Normalen (−sin a, cos a), verankert im Ursprung; Standard phase = h/2. Eine Kante
+  schneidet die Linie c, wenn c im halboffenen Intervall [min v, max v) ihrer Endpunkte liegt;
+  innen nach der Gerade-ungerade-Regel. So zählen Ecken und Kanten auf einer Linie eindeutig, und
+  es entstehen keine Segmente der Länge 0. Optional schlangenförmig (jede zweite Linie rückwärts).
+- **Winkel je Schicht:** a_k = (a₀ + k·Δa) mod π, Standard Δa = π/2 (gekreuzte Schichten,
+  schmid2023).
+- **Prüfmaß (P1):** geschriebenes Volumen Σ Segmentlänge · h · Δz der Hatch-Segmente.
 
 ## 4. Auflösungsgrößen für Tests
 
