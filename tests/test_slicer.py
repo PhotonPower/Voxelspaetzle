@@ -100,3 +100,36 @@ def test_path_roundtrip(tmp_path: Path) -> None:
     assert a.kind.tobytes() == b.kind.tobytes()
     assert back.source["parameters"]["slicing_um"] == 0.5
     assert len(back.source["input_sha256"]) == 64
+
+
+def test_contours_with_offsets() -> None:
+    body = Cylinder(10.0, 2.0)
+    p = WriteParameters(
+        slicing_um=0.5,
+        hatching_um=0.1,
+        power_mW=20.0,
+        speed_um_per_s=1e4,
+        contour_count=2,
+        contour_offset_um=0.25,
+        contour_spacing_um=0.5,
+        hatch_offset_um=0.75,
+        chord_tol_um=1e-4,
+    )
+    job = slice_shell(body.shell(), p, resist="IP-S").jobs[0]
+    for ly in job.layers:
+        s = ly.segments
+        c = s.kind == KIND_CONTOUR
+        r = np.hypot(s.start_um[c, 0], s.start_um[c, 1])
+        np.testing.assert_allclose(np.sort(np.unique(np.round(r, 3))), [9.25, 9.75], atol=1e-3)
+        h = s.kind == KIND_HATCH
+        assert np.hypot(s.start_um[h, 0], s.start_um[h, 1]).max() <= 9.25 + 1e-6
+    assert hatched_volume_um3(job, p) == pytest.approx(math.pi * 9.25**2 * 2.0, rel=2e-3)
+
+
+def test_contour_parameters_are_checked() -> None:
+    with pytest.raises(ValueError):
+        WriteParameters(slicing_um=1, hatching_um=1, power_mW=1, speed_um_per_s=1, contour_count=-1)
+    with pytest.raises(ValueError):
+        WriteParameters(
+            slicing_um=1, hatching_um=1, power_mW=1, speed_um_per_s=1, contour_offset_um=-0.1
+        )
