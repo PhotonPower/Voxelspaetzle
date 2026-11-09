@@ -165,8 +165,19 @@ Literaturpunkt: Wegener et al. kompensierten die axiale Schrumpfung von Woodpile
   Uhrzeigersinn, Löcher im Uhrzeigersinn, von +z gesehen). Sie werden Kurve für Kurve abgetastet,
   bis die Sehnenabweichung höchstens `chord_tol_um` beträgt (Standard 1 nm); die Orientierung wird
   gegen die vorzeichenbehaftete Fläche aus Nurbforge geprüft.
-- **Konturen:** jede Schleife einmal mit Offset 0 vor dem Hatching. Offsets nach innen um die
-  halbe Linienbreite folgen in V1c.
+- **Konturen** (V1c): `contour_count` Konturen je Schleife vor dem Hatching; die erste um
+  `contour_offset_um` ins Material versetzt (typisch die halbe Linienbreite; sie folgt aus V3,
+  bis dahin Prozessparameter), jede weitere um `contour_spacing_um` (Standard: Hatchabstand)
+  weiter innen. Das Hatching füllt den um `hatch_offset_um` versetzten Schnitt. Standard:
+  eine Kontur, alle Offsets 0.
+- **Offset:** Jede Kante wird um δ nach links, also ins Material, verschoben; benachbarte Kanten
+  treffen sich in ihrem Schnittpunkt (Gehrung, auch an einspringenden Ecken des Materials, ohne
+  Rundung). Kanten, deren versetzte Richtung der ursprünglichen entgegenläuft, sind kollabiert und
+  werden entfernt, bis keine mehr übrig sind; gegenläufig parallele Nachbarn mit negativem
+  Abstand ebenso. Schleifen mit weniger als drei Kanten oder umgekehrter Orientierung entfallen,
+  ebenso Löcher, die in keiner äußeren Schleife mehr liegen, und äußere Schleifen, die in einem
+  Loch liegen. Schneiden sich danach noch Kanten (etwa zwei Arme, die sich auf weniger als 2δ
+  nähern), bricht der Slicer mit Ort und Offset ab; das ist die Grenze dieser Stufe.
 - **Hatching:** Linien in Richtung d = (cos a, sin a) auf einem festen Gitter c_j = phase + j·h
   längs der Normalen (−sin a, cos a), verankert im Ursprung; Standard phase = h/2. Eine Kante
   schneidet die Linie c, wenn c im halboffenen Intervall [min v, max v) ihrer Endpunkte liegt;
@@ -246,8 +257,10 @@ Gemeinsam für alle Formate:
 
 ### 5.1 Prozessbibliothek (`voxelspaetzle-process`)
 
-Ein Prozess je Datei; die Referenzprozesse A und B (`docs/materialdaten.md`) werden die ersten
-Einträge.
+Ein Prozess je Datei; mitgeliefert unter `src/voxelspaetzle/processes/` sind die Referenzprozesse
+`schmid2023-A` und `toulouse2021-B` (`docs/materialdaten.md`). Werte, die eine Quelle nicht
+nennt, stehen als `null`; ein Parametersatz mit fehlender Leistung, Geschwindigkeit, Slicing oder
+Hatching lässt sich nicht verwenden (Fehler statt erfundener Zahl).
 
 | Feld | Inhalt |
 | --- | --- |
@@ -257,10 +270,11 @@ Einträge.
 | `mode` | `dip_in_wrapped`, `dip_in`, `oil` |
 | `resist_path_um` | L für §3.3 (bei `dip_in_wrapped`) |
 | `polarization` | `linear_x`, `circular_left`, `circular_right` |
-| `resists` | Liste von Lacken: Name (Verweis auf die Materialdaten), Schreibparameter-Sätze (Slicing, Hatching, Leistung, Geschwindigkeit, Hatchwinkel), `threshold_dose` (D_th, sobald kalibriert) |
+| `resists` | je Lack (Name verweist auf die Materialdaten): `parameter_sets` mit benannten Sätzen (`slicing_um`, `hatching_um`, `power_mW` oder `power_percent` bezogen auf `printer.power_100pct_mW`, `speed_um_per_s`, optional `hatch_angle_deg`, `hatch_angle_step_deg`, Kontur- und Hatch-Offsets, `notes`) und `threshold_dose` (D_th, sobald kalibriert) |
 | `development` | Schritte mit Medium und Dauer |
 | `postprocess` | erlaubte Nachbearbeitungen (z. B. Tinte NPS-J) |
 | `sources` | Kürzel aus `docs/quellen.md` |
+| `notes` | Annahmen und Hinweise in Worten |
 
 ### 5.2 Schreibbahn (`voxelspaetzle-path`)
 
